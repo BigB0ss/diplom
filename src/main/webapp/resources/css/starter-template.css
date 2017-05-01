@@ -1,0 +1,24 @@
+body {
+    padding-top: 5rem;
+}
+.starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+.technical-task{
+    margin-left: 10%;
+    max-width: 50%;
+}
+.submit-form{
+    margin: 5px;
+    float: right;
+}
+
+#add-claim{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.custom-claim{
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
