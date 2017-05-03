@@ -26,13 +26,13 @@ public class DisciplineRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Discipline> getAll(){
-        List<Discipline> types=new ArrayList<>();
-        String sql="SELECT * FROM heroku_2f77cfed4c2105d.discipline;";
-        types=jdbcTemplate.query(sql, new RowMapper<Discipline>() {
+    public List<Discipline> getAll() {
+        List<Discipline> types = new ArrayList<>();
+        String sql = "SELECT * FROM heroku_2f77cfed4c2105d.discipline;";
+        types = jdbcTemplate.query(sql, new RowMapper<Discipline>() {
             @Override
             public Discipline mapRow(ResultSet resultSet, int i) throws SQLException {
-                Discipline discipline=new Discipline();
+                Discipline discipline = new Discipline();
                 discipline.setId(resultSet.getInt("id"));
                 discipline.setName(resultSet.getString("name"));
                 discipline.setDescription(resultSet.getString("description"));
