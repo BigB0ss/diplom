@@ -28,7 +28,7 @@ public class DisciplineRepository {
 
     public List<Discipline> getAll(){
         List<Discipline> types=new ArrayList<>();
-        String sql="SELECT * FROM tt_v2.discipline;";
+        String sql="SELECT * FROM heroku_2f77cfed4c2105d.discipline;";
         types=jdbcTemplate.query(sql, new RowMapper<Discipline>() {
             @Override
             public Discipline mapRow(ResultSet resultSet, int i) throws SQLException {

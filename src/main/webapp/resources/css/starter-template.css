@@ -20,5 +20,14 @@ body {
 }
 .custom-claim{
     margin-bottom: 20px;
-    margin-top: 10px;
+    margin-top: 20px;
+}
+.claim-template {
+    margin-bottom: 80px;
+    margin-top: 20px;
+    padding : 10px;
+}
+
+textarea {
+    margin-bottom: 10px;
 }

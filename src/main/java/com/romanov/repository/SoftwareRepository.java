@@ -29,7 +29,7 @@ public class SoftwareRepository {
 
     public List<Software> getAll() {
         List<Software> softwares = new ArrayList<>();
-        String sql = "SELECT * FROM tt_v2.software;";
+        String sql = "SELECT * FROM heroku_2f77cfed4c2105d.software;";
         softwares = jdbcTemplate.query(sql, new RowMapper<Software>() {
             @Override
             public Software mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -43,7 +43,7 @@ public class SoftwareRepository {
     }
 
     public Software add(Software software) {
-        String sql = "INSERT INTO tt_v2.software (description,categorysoft_id) VALUES (:description, :categorysoft_id);";
+        String sql = "INSERT INTO heroku_2f77cfed4c2105d.software (description,categorysoft_id) VALUES (:description, :categorysoft_id);";
         Map namedParameter = new HashMap();
         namedParameter.put("description", software.getDescription());
         namedParameter.put("categorysoft_id", software.getCategorySoft());

@@ -30,7 +30,7 @@ public class HardwareRepository {
 
     public List<Hardware> getAll() {
         List<Hardware> hardwares = new ArrayList<>();
-        String sql = "SELECT * FROM tt_v2.hardware;";
+        String sql = "SELECT * FROM heroku_2f77cfed4c2105d.hardware;";
         hardwares = jdbcTemplate.query(sql, new RowMapper<Hardware>() {
             @Override
             public Hardware mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -44,7 +44,7 @@ public class HardwareRepository {
     }
 
     public Hardware add(Hardware hardware) {
-        String sql = "INSERT INTO tt_v2.hardware (description,id_hardware_cat) VALUES (:description, :id_hardware_cat);";
+        String sql = "INSERT INTO heroku_2f77cfed4c2105d.hardware (description,id_hardware_cat) VALUES (:description, :id_hardware_cat);";
         Map namedParameter = new HashMap();
         namedParameter.put("description", hardware.getDescription());
         namedParameter.put("id_hardware_cat", hardware.getIdCategory());

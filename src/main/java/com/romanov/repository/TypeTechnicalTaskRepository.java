@@ -29,7 +29,7 @@ public class TypeTechnicalTaskRepository {
 
     public List<Type> getAllTypes(){
         List<Type> types=new ArrayList<>();
-        String sql="SELECT * FROM tt_v2.type;";
+        String sql="SELECT * FROM heroku_2f77cfed4c2105d.type;";
         types=jdbcTemplate.query(sql, new RowMapper<Type>() {
             @Override
             public Type mapRow(ResultSet resultSet, int i) throws SQLException {

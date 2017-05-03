@@ -47,12 +47,8 @@ public class HomeController {
     public String createTechnicalTask(Model model) {
         List<Type> types= typeTechnicalTaskRepository.getAllTypes();
         List<Discipline> disciplines= disciplineRepository.getAll();
-        List<Software> softwares=softwareRepository.getAll();
-        List<Hardware> hardwares=hardwareRepository.getAll();
         model.addAttribute("types",types);
         model.addAttribute("disciplines",disciplines);
-        model.addAttribute("softwares",softwares);
-        model.addAttribute("hardwares",hardwares);
         return "create_new_tt";
     }
 

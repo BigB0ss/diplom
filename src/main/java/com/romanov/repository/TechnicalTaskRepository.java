@@ -35,7 +35,7 @@ public class TechnicalTaskRepository {
     }
 
     public void addTechnicalTask(TechnicalTask task){
-        String sql="INSERT INTO tt_v2.techincal_task (name, target, type_id, date_create,  discipline_id) VALUES (:name,:target, :type_id, :date_create, :discipline_id);";
+        String sql="INSERT INTO heroku_2f77cfed4c2105d.techincal_task (name, target, type_id, date_create,  discipline_id) VALUES (:name,:target, :type_id, :date_create, :discipline_id);";
         KeyHolder keyHolder=new GeneratedKeyHolder();
         MapSqlParameterSource  namedParametrs= new MapSqlParameterSource();
         namedParametrs.addValue("name",task.getName());
@@ -51,7 +51,7 @@ public class TechnicalTaskRepository {
     public void addSubSection(TechnicalTask task, Number idTechnicalTask){
         List<String> demand=new ArrayList<>(task.getDemands().keySet());
         List<String> description=new ArrayList<>(task.getDemands().values());
-        String sql="INSERT INTO tt_v2.subsections (description,techincal_task_id,section_id, demand) VALUES (:description, :techincal_task_id, 1, :demand);";
+        String sql="INSERT INTO heroku_2f77cfed4c2105d.subsections (description,techincal_task_id,section_id, demand) VALUES (:description, :techincal_task_id, 1, :demand);";
         for(Map.Entry<String,String> entry: task.getDemands().entrySet()){
             Map namedParametrs=new HashMap();
             namedParametrs.put("description",entry.getValue());
