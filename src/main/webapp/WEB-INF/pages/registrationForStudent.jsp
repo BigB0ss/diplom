@@ -102,8 +102,9 @@
             <label class="col-md-4 control-label" for="selectbasic">Группа</label>
             <div class="col-md-4">
                 <select id="group" name="group" class="form-control input-md">
-                    <option>Option one</option>
-                    <option>Option two</option>
+                    <c:forEach items="${groups}" var="group">
+                        <option value=<c:out value="${group.getName()}"/>> ${group.getName()} </option>
+                    </c:forEach>
                 </select>
             </div>
         </div>
