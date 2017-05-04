@@ -19,6 +19,15 @@
     <link href="/resources/css/starter-template.css" rel="stylesheet">
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="<c:url value="/resources/js/lib/jquery-3.2.0.js" />"></script>
+    <script src="<c:url value="/resources/js/registrationForStudent.js" />"></script>
+
+
+    <style>
+        .error {
+            border-color: red;
+        }
+    </style>
 </head>
 <body>
 <form class="form-horizontal">
@@ -51,7 +60,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="ln">Отчество</label>
             <div class="col-md-4">
-                <input id="ln" name="patronymic" type="text" placeholder="patronymic" class="form-control input-md"
+                <input id="patronymic" name="patronymic" type="text" placeholder="patronymic" class="form-control input-md"
                        required="">
 
             </div>
@@ -61,7 +70,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="email">Email</label>
             <div class="col-md-4">
-                <input id="email" name="email" type="text" placeholder="email" class="form-control input-md"
+                <input id="email" name="email" type="email" placeholder="email" class="form-control input-md"
                        required="">
 
             </div>

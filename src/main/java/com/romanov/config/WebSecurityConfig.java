@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import javax.sql.DataSource;
+
 /**
  * Created by Kirill_Romanov1 on 23-Mar-17.
  */
@@ -15,14 +17,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private DataSource dataSource;
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("user1").password("user1").roles("ADMIN");
+        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("select username, password, enabled from users where username = ?")
+                .authoritiesByUsernameQuery("select username, role from users where username=?");
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/resources/css/**", "/Registration", "/resources/js/**","/rest/**").permitAll()
+        http.authorizeRequests().antMatchers("/resources/css/**", "/Registration", "/resources/js/**", "/rest/**").permitAll()
                 .antMatchers("/home/**").access("hasRole('ROLE_ADMIN')")
                 .and().formLogin().loginPage("/").usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home").failureUrl("/").and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
 
