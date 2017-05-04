@@ -95,8 +95,6 @@ $(function() {
         var target = $('#target').val().trim();
         var type = $('#type').val();
         var discipline = $('#discipline').val();
-        console.log(type);
-        console.log(discipline);
 
         if (name == '') { $('#name').addClass('error') }
         if (target == '') { $('#target').addClass('error') }
