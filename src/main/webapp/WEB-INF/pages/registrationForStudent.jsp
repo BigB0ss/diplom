@@ -22,6 +22,7 @@
     <script src="<c:url value="/resources/js/lib/jquery-3.2.0.js" />"></script>
     <script src="<c:url value="/resources/js/registrationForStudent.js" />"></script>
 
+  <script src="/resources/js/bootstrap.min.js"></script>
 
     <style>
         .error {
@@ -92,7 +93,7 @@
             <div class="col-md-4">
                 <input id="password" name="password" type="password" placeholder="password"
                        class="form-control input-md" required="">
-
+            <div id="checkPasswordError"> </div>
             </div>
         </div>
 
@@ -128,5 +129,23 @@
 
     </fieldset>
 </form>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </body>
 </html>

@@ -10,7 +10,6 @@ $( document ).ready(function() {
         var password = $('#password').val().trim();
         var passwordRepeat = $('#passwordR').val().trim();
         var group = $('#group').val().trim();
-        debugger;
         if (firsName == '') {
              $('#fn').addClass('error');
         }
@@ -36,8 +35,15 @@ $( document ).ready(function() {
             $('#group').addClass('error');
         }
 
+        if (password.localeCompare(passwordRepeat) != 0) {
+           $('#password').addClass('error');
+           $('#passwordR').addClass('error');
+           $('#myModal').css('top', $('#passwordR').offset().top)
+           $('#checkPasswordError').append("<span style=\"color:red;\">Введенные пароли не совпадают</span>")
+           /*$("#myModal").modal();*/
+        }
         if ($('fieldset .error').length > 0) {
-            console.log(('fieldset .error').length)
+
         } else {
 
         }
@@ -53,4 +59,5 @@ function removeClassError () {
     $('#password').removeClass('error');
     $('#group').removeClass('error');
     $('#passwordR').removeClass('error');
+    $('#checkPasswordError').empty();
 }
