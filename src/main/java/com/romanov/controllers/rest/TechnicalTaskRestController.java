@@ -31,30 +31,9 @@ import java.util.stream.Collectors;
 public class TechnicalTaskRestController {
 
     @Autowired
-    private SoftwareRepository softwareRepository;
-
-    @Autowired
-    private HardwareRepository hardwareRepository;
-
-    @Autowired
     private TechnicalTaskRepository technicalTaskRepository;
 
-    @RequestMapping(value = "/rest/module/software", method = RequestMethod.POST)
-    public void addSoftware(@RequestBody String description) {
-        Software software = new Software();
-        software.setDescription(description);
-        software.setCategorySoft(3);
-        softwareRepository.add(software);
-    }
 
-    @RequestMapping(value = "/rest/module/hardware", method = RequestMethod.POST)
-    public void addHardware(@RequestBody String description) {
-        Hardware hardware = new Hardware();
-        hardware.setDescription(description);
-        hardware.setIdCategory(3);
-        hardwareRepository.add(hardware);
-
-    }
 
     @RequestMapping(value = "/rest/technical-task", method = RequestMethod.POST)
     public HttpStatus addTecgnicalTask(@RequestBody JsonNode json) throws IOException {

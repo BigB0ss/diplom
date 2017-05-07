@@ -113,7 +113,7 @@
             <div class="col-md-4">
                 <select id="group" name="group" class="form-control input-md">
                     <c:forEach items="${groups}" var="group">
-                        <option value=<c:out value="${group.getName()}"/>> ${group.getName()} </option>
+                        <option value=<c:out value="${group.getId()}"/>> ${group.getName()} </option>
                     </c:forEach>
                 </select>
             </div>

@@ -40,12 +40,31 @@ $( document ).ready(function() {
            $('#passwordR').addClass('error');
            $('#myModal').css('top', $('#passwordR').offset().top)
            $('#checkPasswordError').append("<span style=\"color:red;\">Введенные пароли не совпадают</span>")
-           /*$("#myModal").modal();*/
         }
         if ($('fieldset .error').length > 0) {
 
         } else {
+            var data = {
+                "firsName": firsName,
+                "lastName": lastName,
+                "patronymic": patronymic,
+                "email": email,
+                "userName": userName,
+                "password": password,
+                "group": group
+            }
+            console.log(data);
+            $.ajax({
+              url: "/rest/student-registration",
+              type: "POST",
+              dataType: 'json',
+              contentType: "application/json",
+              data: JSON.stringify(data),
+              success: function(response){
+                alert(response);
+              }
 
+            });
         }
     });
 });
