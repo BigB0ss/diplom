@@ -1,27 +1,33 @@
 package com.romanov.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+
 /**
  * Created by Kirill_Romanov1 on 29-Mar-17.
  */
-public class User {
+public class User implements UserDetails {
     private int id;
     private String userName;
     private String password;
     private String name;
     private String surname;
-    private String patronynic;
+    private String patronymic;
     private String email;
+    private String role;
 
     public User() {
     }
 
-    public User(int id, String userName, String password, String name, String surname, String patronynic, String email) {
+    public User(int id, String userName, String password, String name, String surname, String patronymic, String email) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.name = name;
         this.surname = surname;
-        this.patronynic = patronynic;
+        this.patronymic = patronymic;
         this.email = email;
     }
 
@@ -41,8 +47,38 @@ public class User {
         this.userName = userName;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public void setPassword(String password) {
@@ -65,12 +101,12 @@ public class User {
         this.surname = surname;
     }
 
-    public String getPatronynic() {
-        return patronynic;
+    public String getPatronymic() {
+        return patronymic;
     }
 
-    public void setPatronynic(String patronynic) {
-        this.patronynic = patronynic;
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
     }
 
     public String getEmail() {
@@ -93,8 +129,16 @@ public class User {
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
-        if (patronynic != null ? !patronynic.equals(user.patronynic) : user.patronynic != null) return false;
+        if (patronymic != null ? !patronymic.equals(user.patronymic) : user.patronymic != null) return false;
         return email != null ? email.equals(user.email) : user.email == null;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
@@ -104,7 +148,7 @@ public class User {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + (patronynic != null ? patronynic.hashCode() : 0);
+        result = 31 * result + (patronymic != null ? patronymic.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }

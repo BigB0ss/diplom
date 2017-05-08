@@ -36,6 +36,12 @@
                name="username">
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="password" class="form-control" placeholder="Password" required name="password">
+        <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+              <font color="red">
+                Your login attempt was not successful due to <br/><br/>
+                <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
+              </font>
+        </c:if>
         <div class="checkbox">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me

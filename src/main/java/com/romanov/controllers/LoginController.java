@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 
-    @RequestMapping( value = "/", method = RequestMethod.GET)
-    public String login(){
+    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+    public String login() throws Exception {
         return "login";
     }
 
-    @RequestMapping( value = "/", method = RequestMethod.POST)
-    public String loginCheck(){
+    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.POST)
+    public String loginCheck() throws Exception {
         return "redirect:/home";
     }
 }
