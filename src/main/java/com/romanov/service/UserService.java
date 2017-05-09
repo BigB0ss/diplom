@@ -1,6 +1,7 @@
 package com.romanov.service;
 
 import com.romanov.model.User;
+import com.romanov.model.UserStudent;
 import com.romanov.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,5 +31,17 @@ public class UserService implements UserDetailsService {
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUserName(),
                 user.getPassword(), Arrays.asList(authority));
         return userDetails;
+    }
+
+    public void createNewStudent(User user, UserStudent userStudent) {
+        userRepository.createNewStudent(user, userStudent);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
+
+    public User getUserByUserName(String userName) {
+        return userRepository.getUserByUserName(userName);
     }
 }

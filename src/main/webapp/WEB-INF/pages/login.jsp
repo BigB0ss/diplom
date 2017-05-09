@@ -42,11 +42,7 @@
                 <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
               </font>
         </c:if>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
+
         <button class="btn btn-lg btn-primary btn-block" type="submit">Ок</button>
     </form>
     <div class="col-md-2 col-md-offset-5">

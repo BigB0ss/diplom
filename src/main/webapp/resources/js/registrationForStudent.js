@@ -21,9 +21,22 @@ $( document ).ready(function() {
         }
         if (email == '') {
             $('#email').addClass('error');
+        } else {
+            if (checkUniqueEmail(email) == false) {
+                $('#email').parent().find('span').remove();
+                $('#email').addClass('error');
+                $('#email').parent().append("<span style=\"color:red;\">Email занят!</span>")
+            }
         }
         if (userName == '') {
             $('#username').addClass('error');
+        } else {
+            if (checkUniqueUserName(userName) == false) {
+            debugger;
+                $('#username').parent().find('span').remove();
+                $('#username').addClass('error')
+                $('#username').parent().append("<span style=\"color:red;\">Login занят!</span>")
+            }
         }
         if (password == '') {
             $('#password').addClass('error');
@@ -35,17 +48,18 @@ $( document ).ready(function() {
             $('#group').addClass('error');
         }
 
+
+
         if (password.localeCompare(passwordRepeat) != 0) {
            $('#password').addClass('error');
            $('#passwordR').addClass('error');
            $('#myModal').css('top', $('#passwordR').offset().top)
            $('#checkPasswordError').append("<span style=\"color:red;\">Введенные пароли не совпадают</span>")
         }
-        if ($('fieldset .error').length > 0) {
 
-        } else {
+        if ($('fieldset .error').length == 0) {
             var data = {
-                "firsName": firsName,
+                "firstName": firsName,
                 "lastName": lastName,
                 "patronymic": patronymic,
                 "email": email,
@@ -62,9 +76,15 @@ $( document ).ready(function() {
               data: JSON.stringify(data),
               success: function(response){
                 alert(response);
-              }
-
+                window.location.replace("/");
+              },
+            failure: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.debug(XMLHttpRequest, textStatus, errorThrown)
+                    alert("Status: " + textStatus);
+                }
             });
+        } else {
+            return false;
         }
     });
 });
@@ -79,4 +99,44 @@ function removeClassError () {
     $('#group').removeClass('error');
     $('#passwordR').removeClass('error');
     $('#checkPasswordError').empty();
+    $('#email').empty();
+}
+
+function checkUniqueUserName(userName) {
+    var data = {
+        "userName": userName
+    }
+    $.ajax({
+        url: '/rest/user-by-username',
+        data: JSON.stringify(data),
+        async: false,
+        type: 'POST',
+        contentType: "application/json",
+        success: function(response) {
+        debugger;
+            if (response == "")
+                return true;
+            else
+                return false;
+        }
+    });
+}
+
+function checkUniqueEmail(email) {
+    var data = {
+        "email": email
+    }
+    $.ajax({
+        url: '/rest/user-by-email',
+        data: JSON.stringify(data),
+        async: false,
+        type: 'POST',
+        contentType: "application/json",
+        success: function(response) {
+            if (response == "")
+                return true;
+            else
+                return false;
+        }
+    });
 }

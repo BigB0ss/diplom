@@ -31,14 +31,14 @@
     </style>
 </head>
 <body>
-<form class="form-horizontal">
+<form class="form-horizontal" method="POST" autocomplete="on">
     <fieldset>
 
         <!-- Form Name -->
         <legend>Форма Регистрации</legend>
 
         <!-- Text input-->
-        <div class="form-group">
+        <div class="form-group" >
             <label class="col-md-4 control-label" for="fn">Имя</label>
             <div class="col-md-4">
                 <input id="fn" name="firstName" type="text" placeholder="first name" class="form-control input-md"
