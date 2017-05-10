@@ -1,6 +1,7 @@
 
 $( document ).ready(function() {
-    $('#submit').click(function() {
+    $('#submit').click(function(e) {
+        e.preventDefault();
         removeClassError();
         var firsName = $('#fn').val().trim();
         var lastName = $('#ln').val().trim();
@@ -32,7 +33,7 @@ $( document ).ready(function() {
             $('#username').addClass('error');
         } else {
             if (checkUniqueUserName(userName) == false) {
-            debugger;
+            console.log(checkUniqueUserName(userName))
                 $('#username').parent().find('span').remove();
                 $('#username').addClass('error')
                 $('#username').parent().append("<span style=\"color:red;\">Login занят!</span>")
@@ -47,8 +48,6 @@ $( document ).ready(function() {
         if (group == '') {
             $('#group').addClass('error');
         }
-
-
 
         if (password.localeCompare(passwordRepeat) != 0) {
            $('#password').addClass('error');
@@ -67,16 +66,17 @@ $( document ).ready(function() {
                 "password": password,
                 "group": group
             }
-            console.log(data);
             $.ajax({
               url: "/rest/student-registration",
               type: "POST",
               dataType: 'json',
+              async: false,
               contentType: "application/json",
               data: JSON.stringify(data),
               success: function(response){
                 alert(response);
-                window.location.replace("/");
+                window.location.href = "/";
+                return true;
               },
             failure: function(XMLHttpRequest, textStatus, errorThrown) {
             console.debug(XMLHttpRequest, textStatus, errorThrown)
@@ -87,6 +87,7 @@ $( document ).ready(function() {
             return false;
         }
     });
+
 });
 
 function removeClassError () {
@@ -103,6 +104,7 @@ function removeClassError () {
 }
 
 function checkUniqueUserName(userName) {
+    var uniqueUserName = false;
     var data = {
         "userName": userName
     }
@@ -113,16 +115,15 @@ function checkUniqueUserName(userName) {
         type: 'POST',
         contentType: "application/json",
         success: function(response) {
-        debugger;
             if (response == "")
-                return true;
-            else
-                return false;
+                uniqueUserName = true;
         }
     });
+    return uniqueUserName;
 }
 
 function checkUniqueEmail(email) {
+    var uniqueEmail = false;
     var data = {
         "email": email
     }
@@ -134,9 +135,8 @@ function checkUniqueEmail(email) {
         contentType: "application/json",
         success: function(response) {
             if (response == "")
-                return true;
-            else
-                return false;
+                uniqueEmail = true;
         }
     });
+    return uniqueEmail;
 }

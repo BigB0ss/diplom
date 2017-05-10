@@ -25,11 +25,12 @@
     <link href="<c:url value="/resources/css/signin.css"/>" rel="stylesheet">
 </head>
 
-<body>
+
+<body style = "background-image: url(resources/img/login.jpg);">
 
 <div class="container">
 
-    <form class="form-signin" method="Post">
+    <form class="form-signin" method="Post" style="background-color: #DEDEDE ; border-radius: 30px; border: 20px solid #B5B5B5;">
         <h2 class="form-signin-heading">Вход</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" id="login" class="form-control" placeholder="Email address" required autofocus
@@ -44,13 +45,11 @@
         </c:if>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Ок</button>
+            <div style="margin-top: 10px;"><a href="/registration-student" class="btn btn-lg btn-primary form-control" >Регистрация студента</a></div>
+            <div style="margin-top: 10px;"><a href="/registration-teacher" class="btn btn-lg  btn-primary form-control">Регистрация преподавателя</a></div>
+
     </form>
-    <div class="col-md-2 col-md-offset-5">
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="/registration-student">Регистрация студента</a></li>
-            <li><a href="/registration-teacher">Регистрация преподавателя</a></li>
-        </ul>
-    </div>
+
 </div> <!-- /container -->
 
 </body>
