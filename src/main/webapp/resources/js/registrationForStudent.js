@@ -33,14 +33,20 @@ $( document ).ready(function() {
             $('#username').addClass('error');
         } else {
             if (checkUniqueUserName(userName) == false) {
-            console.log(checkUniqueUserName(userName))
                 $('#username').parent().find('span').remove();
                 $('#username').addClass('error')
                 $('#username').parent().append("<span style=\"color:red;\">Login занят!</span>")
+            } else {
+
             }
         }
         if (password == '') {
             $('#password').addClass('error');
+        } else {
+            if (!isValidPassword(password)) {
+                $('#password').addClass('error');
+                $('#checkPasswordError').append("<span style=\"color:red;\">Длина пароля меньше 6 знаков! В пароле должна быть хотя бы 1 цифра и 1 буква!</span>")
+            }
         }
         if (passwordRepeat == '') {
             $('#passwordR').addClass('error');
@@ -53,7 +59,7 @@ $( document ).ready(function() {
            $('#password').addClass('error');
            $('#passwordR').addClass('error');
            $('#myModal').css('top', $('#passwordR').offset().top)
-           $('#checkPasswordError').append("<span style=\"color:red;\">Введенные пароли не совпадают</span>")
+           $('#checkRepeatPasswordError').append("<span style=\"color:red;\"> Введенные пароли не совпадают</span>")
         }
 
         if ($('fieldset .error').length == 0) {
@@ -101,6 +107,7 @@ function removeClassError () {
     $('#passwordR').removeClass('error');
     $('#checkPasswordError').empty();
     $('#email').empty();
+    $('#checkRepeatPasswordError').empty();
 }
 
 function checkUniqueUserName(userName) {
@@ -139,4 +146,28 @@ function checkUniqueEmail(email) {
         }
     });
     return uniqueEmail;
+}
+
+function isValidUserName(userName) {
+    if (userName < 6) {
+        return false;
+}
+
+function isValidPassword(password) {
+    if (password.length < 6) {
+        return false;
+    } else {
+        var digit = new RegExp("\\d")
+        var letter = new RegExp("\\w")
+        if (password.search(digit) == -1) {
+            return false;
+        } else {
+            if (password.search(letter) == -1 ){
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    }
 }

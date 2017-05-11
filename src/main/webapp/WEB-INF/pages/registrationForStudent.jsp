@@ -48,10 +48,6 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-
-                <li>
-                    <a href="/home">На главную</a>
-                </li>
                 <li>
                     <a id="exit" href="/logout">Выход</a>
                 </li>
@@ -63,7 +59,7 @@
 </nav>
 
 <body>
-<form class="form-horizontal" method="POST" autocomplete="on">
+<form class="form-horizontal" method="POST" autocomplete="on" id="registrationStudentForm">
     <fieldset>
 
         <!-- Form Name -->
@@ -135,7 +131,7 @@
             <div class="col-md-4">
                 <input id="passwordR" name="passwordR" type="password" placeholder="password"
                        class="form-control input-md" required="">
-
+                <div id="checkRepeatPasswordError"> </div>
             </div>
         </div>
 

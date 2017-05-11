@@ -26,11 +26,11 @@
 </head>
 
 
-<body style = "background-image: url(resources/img/login.jpg);">
+<body style = "background: url(resources/img/login.jpg) no-repeat center center fixed;  background-size: cover;">
 
 <div class="container">
 
-    <form class="form-signin" method="Post" style="background-color: #DEDEDE ; border-radius: 30px; border: 20px solid #B5B5B5;">
+    <form class="form-signin" method="Post" style="background-color: #DEDEDE ; border-radius: 30px; border: 8px solid #B5B5B5;">
         <h2 class="form-signin-heading">Вход</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" id="login" class="form-control" placeholder="Email address" required autofocus
