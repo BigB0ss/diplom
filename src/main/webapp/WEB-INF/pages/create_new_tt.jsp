@@ -86,7 +86,7 @@
 
         <label>Название работы</label>
         <br>
-        <textarea class="form-control" id="name" maxlength=8000></textarea>
+        <textarea class="form-control" id="name"  maxlength=8000></textarea>
         <br>
         <label>Цель работы</label>
         <br>

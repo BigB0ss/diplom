@@ -19,7 +19,42 @@
     <link href="/resources/css/starter-template.css" rel="stylesheet">
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="<c:url value="/resources/js/lib/jquery-3.2.0.js" />"></script>
+    <script src ="/resources/js/registrationForTeacher.js"></script>
+    <style>
+        .error {
+            border-color: red;
+        }
+    </style>
 </head>
+
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Об приложении</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a id="exit" href="/logout">Выход</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
 <body>
 <form class="form-horizontal">
     <fieldset>
@@ -51,7 +86,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="ln">Отчество</label>
             <div class="col-md-4">
-                <input id="ln" name="patronymic" type="text" placeholder="patronymic" class="form-control input-md"
+                <input id="patronymic" name="patronymic" type="text" placeholder="patronymic" class="form-control input-md"
                        required="">
 
             </div>
@@ -83,7 +118,7 @@
             <div class="col-md-4">
                 <input id="password" name="password" type="password" placeholder="password"
                        class="form-control input-md" required="">
-
+            <div id="checkPasswordError"> </div>
             </div>
         </div>
 
@@ -93,7 +128,7 @@
             <div class="col-md-4">
                 <input id="passwordR" name="passwordR" type="password" placeholder="password"
                        class="form-control input-md" required="">
-
+            <div id="checkRepeatPasswordError"> </div>
             </div>
         </div>
 
@@ -137,8 +172,9 @@
             <label class="col-md-4 control-label" for="selectbasic">Кафедра</label>
             <div class="col-md-4">
                 <select id="cathedra" name="cathedra" class="form-control input-md">
-                    <option>Option one</option>
-                    <option>Option two</option>
+                    <c:forEach items="${cathedres}" var="cathedra">
+                        <option value=<c:out value="${cathedra.getId()}"/>> ${cathedra.getName()} </option>
+                    </c:forEach>
                 </select>
             </div>
         </div>

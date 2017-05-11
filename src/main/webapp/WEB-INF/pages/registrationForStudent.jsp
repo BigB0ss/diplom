@@ -21,8 +21,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <script src="<c:url value="/resources/js/lib/jquery-3.2.0.js" />"></script>
     <script src="<c:url value="/resources/js/registrationForStudent.js" />"></script>
-
-  <script src="/resources/js/bootstrap.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
 
     <style>
         .error {

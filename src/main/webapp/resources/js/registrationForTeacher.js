@@ -1,7 +1,5 @@
-
 $( document ).ready(function() {
     $('#submit').click(function(e) {
-        e.preventDefault();
         removeClassError();
         var firsName = $('#fn').val().trim();
         var lastName = $('#ln').val().trim();
@@ -10,7 +8,10 @@ $( document ).ready(function() {
         var userName = $('#username').val().trim();
         var password = $('#password').val().trim();
         var passwordRepeat = $('#passwordR').val().trim();
-        var group = $('#group').val().trim();
+        var post = $('#post').val().trim();
+        var academicDegree = $('#academic-degree').val().trim();
+        var academicTitle = $('#academic-title').val().trim();
+        var cathedra = $('#cathedra').val().trim();
         if (firsName == '') {
              $('#fn').addClass('error');
         }
@@ -55,9 +56,6 @@ $( document ).ready(function() {
         if (passwordRepeat == '') {
             $('#passwordR').addClass('error');
         }
-        if (group == '') {
-            $('#group').addClass('error');
-        }
 
         if (password.localeCompare(passwordRepeat) != 0) {
            $('#password').addClass('error');
@@ -65,36 +63,17 @@ $( document ).ready(function() {
            $('#myModal').css('top', $('#passwordR').offset().top)
            $('#checkRepeatPasswordError').append("<span style=\"color:red;\"> Введенные пароли не совпадают</span>")
         }
-
-        if ($('fieldset .error').length == 0) {
-            var data = {
-                "firstName": firsName,
-                "lastName": lastName,
-                "patronymic": patronymic,
-                "email": email,
-                "userName": userName,
-                "password": password,
-                "group": group
-            }
-            $.ajax({
-              url: "/rest/student-registration",
-              type: "POST",
-              dataType: 'json',
-              async: false,
-              contentType: "application/json",
-              data: JSON.stringify(data),
-              success: function(response){
-                alert(response);
-                window.location.href = "/";
-                return true;
-              },
-            failure: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.debug(XMLHttpRequest, textStatus, errorThrown)
-                    alert("Status: " + textStatus);
-                }
-            });
-        } else {
-            return false;
+        if (post == '') {
+            $('#post').addClass('error');
+        }
+        if(academicDegree == '') {
+            $('#academic-degree').addClass('error');
+        }
+        if(academicTitle == '') {
+            $('#academic-title').addClass('error');
+        }
+        if(cathedra == '') {
+            $('#cathedra').addClass('error');
         }
     });
 
