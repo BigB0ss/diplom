@@ -56,7 +56,7 @@
 </nav>
 
 <body>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
     <fieldset>
 
         <!-- Form Name -->
@@ -148,7 +148,7 @@
             <label class="col-md-4 control-label" for="selectbasic">Ученая степень</label>
             <div class="col-md-4">
                 <select id="academic-degree" name="academic-degree" class="form-control input-md">
-                    <option>Нет</option>
+                    <option>нет</option>
                     <option>Кандидат Наук</option>
                     <option>Доктор Наук</option>
                 </select>

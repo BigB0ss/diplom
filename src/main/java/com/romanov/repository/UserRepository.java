@@ -2,6 +2,7 @@ package com.romanov.repository;
 
 import com.romanov.model.User;
 import com.romanov.model.UserStudent;
+import com.romanov.model.UserTeacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -52,6 +53,28 @@ public class UserRepository {
         parameters.put("users_id", keyHolder.getKey());
         parameters.put("group_id", userStudent.getGroup());
         namedParameterJdbcTemplate.update(insertStudent, parameters);
+    }
+
+    @Transactional
+    public void createNewTeacher(User user, UserTeacher userTeacher) {
+        final String insertUser = "INSERT INTO heroku_2f77cfed4c2105d.users (`username`, `password`, `name`, `surname`, `patronymic`, `mail`, `role`) VALUES (:username, :password, :name, :surname, :patronymic, :mail, 'ROLE_TEACHER');";
+        final String insertTeacher = "INSERT INTO heroku_2f77cfed4c2105d.teachers (users_id, post, academic_degree, cathedra_id, academic_title) VALUES(:users_id, :post, :academic_degree, :cathedra_id, :academic_title) ";
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("username", user.getUserName());
+        namedParameters.addValue("password", user.getPassword());
+        namedParameters.addValue("name", user.getName());
+        namedParameters.addValue("surname", user.getSurname());
+        namedParameters.addValue("patronymic", user.getPatronymic());
+        namedParameters.addValue("mail", user.getEmail());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(insertUser, namedParameters, keyHolder, new String[]{"id"});
+        Map parameters = new HashMap();
+        parameters.put("users_id", keyHolder.getKey());
+        parameters.put("post", userTeacher.getPost());
+        parameters.put("academic_degree", userTeacher.getAcademicDegree());
+        parameters.put("academic_title",userTeacher.getAcademicTitle());
+        parameters.put("cathedra_id",userTeacher.getIdCathedra());
+        namedParameterJdbcTemplate.update(insertTeacher,parameters);
     }
 
     public User getUserByUserName(String name) {

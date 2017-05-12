@@ -2,6 +2,7 @@ package com.romanov.service;
 
 import com.romanov.model.User;
 import com.romanov.model.UserStudent;
+import com.romanov.model.UserTeacher;
 import com.romanov.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,6 +36,10 @@ public class UserService implements UserDetailsService {
 
     public void createNewStudent(User user, UserStudent userStudent) {
         userRepository.createNewStudent(user, userStudent);
+    }
+
+    public void createNewTeacher(User user, UserTeacher userTeacher) {
+        userRepository.createNewTeacher(user,userTeacher);
     }
 
     public User getUserByEmail(String email) {

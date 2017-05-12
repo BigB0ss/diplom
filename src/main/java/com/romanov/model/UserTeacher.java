@@ -6,6 +6,7 @@ package com.romanov.model;
 public class UserTeacher {
     private String post;
     private String academicDegree;
+    private String academicTitle;
     private int idCathedra;
     private int idUser;
 
@@ -17,6 +18,14 @@ public class UserTeacher {
         this.academicDegree = academicDegree;
         this.idCathedra = idCathedra;
         this.idUser = idUser;
+    }
+
+    public String getAcademicTitle() {
+        return academicTitle;
+    }
+
+    public void setAcademicTitle(String academicTitle) {
+        this.academicTitle = academicTitle;
     }
 
     public String getPost() {

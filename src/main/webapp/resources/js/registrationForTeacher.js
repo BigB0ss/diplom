@@ -75,8 +75,42 @@ $( document ).ready(function() {
         if(cathedra == '') {
             $('#cathedra').addClass('error');
         }
-    });
+        if ($('fieldset .error').length == 0) {
+            var data = {
+                "firstName": firsName,
+                "lastName": lastName,
+                "patronymic": patronymic,
+                "email": email,
+                "userName": userName,
+                "password": password,
+                "post": post,
+                "academicDegree": academicDegree,
+                "academicTitle": academicTitle,
+                "cathedra":cathedra
 
+            }
+            debugger;
+           $.ajax({
+              url: "/rest/teacher-registration",
+              type: "POST",
+              dataType: 'json',
+              async: false,
+              contentType: "application/json",
+              data: JSON.stringify(data),
+              success: function(response){
+                alert(response);
+                window.location.href = "/";
+                return true;
+              },
+            failure: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.debug(XMLHttpRequest, textStatus, errorThrown)
+                    alert("Status: " + textStatus);
+                }
+            });
+        } else {
+            return false;
+        }
+    });
 });
 
 function removeClassError () {
