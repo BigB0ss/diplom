@@ -39,12 +39,14 @@ $(function() {
 
     $(document).on('click', '.btn-add', function(e) {
         e.preventDefault();
-        var textArea = "<div style=\"width: 90%; float: left;\">" +
+        var textArea =
+        "<div style=\"width: 90%; float: left;\">" +
             "<textarea class=\"form-control\" type=\"text\"></textarea>" +
             "</div>" +
             "<div>" +
             "<button class=\"btn btn-add\" style=\"float:right\" id=\"buttonDescription\"><span class=\"glyphicon glyphicon-plus\"></span></button>" +
             "</div>"
+        $('#mainTaskBody').append(textArea);
         $(this).parent().append(textArea);
         $(this).parent().find('.btn-add:not(:last)')
             .removeClass('btn-add').addClass('btn-remove')
@@ -54,16 +56,8 @@ $(function() {
 
     $(document).on('click', '.btn-addTask', function(e) {
         e.preventDefault();
-        var task = "<div>" +
-            "<div style=\"width: 90%;float: left;margin-bottom: 20px;margin-top: 10px;\">" +
-            "<textarea class=\"form-control\" type=\"text\"></textarea>" +
-            "</div>" +
-            "<div>" +
-            "<button class=\"btn btn-addTask\" style=\"margin-top: 15px;float:right;\" id=\"buttonTask\">" +
-            "<span class=\"glyphicon glyphicon-plus\"></span></button>" +
-            "</div>" +
-            "</div>";
-        $('#tasksContainer').append(task);
+        var task = "<tr><td style=\"border: none;\"><textarea class=\"form-control\" type=\"text\"></textarea></td><td style=\"width:50px; border: none;\"><button class=\"btn btn-addTask\" style=\"margin-top: 15px;float:left;\" id=\"buttonTask\"><span class=\"glyphicon glyphicon-plus\"></span></button></td></tr>";
+        $('#mainTaskBody').append(task);
         var controlForm = $('#tasksContainer');
         controlForm.find('.btn-addTask:not(:last)')
             .removeClass('btn-addTask').addClass('btn-removeTask')

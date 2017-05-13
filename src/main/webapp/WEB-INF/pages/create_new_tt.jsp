@@ -34,6 +34,9 @@
         .error {
             border-color: red;
         }
+.borderless td, .borderless th {
+    border: none;
+}
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,14 +62,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Start Bootstrap</a>
+            <a class="navbar-brand" href="#">Об приложении</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="#">About</a>
-                </li>
                 <li>
                     <a href="/home">На главную</a>
                 </li>
@@ -81,8 +81,8 @@
 </nav>
 
 <!-- Page Content -->
-<div class="container" id="container">
-    <div class="technical-task">
+<div  id="container">
+    <div class="col-md-8 col-md-offset-2">
 
         <label>Название работы</label>
         <br>
@@ -92,22 +92,29 @@
         <br>
         <textarea class="form-control" id="target"></textarea>
         <br>
-        <label>Основные Задачи</label>
+        <label >Основные Задачи</label>
         <br>
-        <div id="tasksContainer" class="taskTemplate">
-        <div>
-            <div style="width: 90%;float: left;margin-bottom: 20px;margin-top: 10px;">
-                <textarea class="form-control" type="text"></textarea>
+        <div id="tasksContainer" >
+        <div class="col-md-12" style="padding-left:0px;">
+            <table class=" table table-hover  table-bordered  " style="" id="mainTasks">
+                <thead>
+                </thead>
+                <tbody id ="mainTaskBody" >
+                    <td style="border: none;"><textarea class="form-control" type="text"></textarea></td>
+                    <td style="width:50px; border: none;"><button class="btn btn-addTask" style=" margin-top: 15px;float:left;" id="buttonTask">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </td>
+                </tbody>
+            </table>
+                
             </div>
-            <div>
-                        <button class="btn btn-addTask" style="margin-top: 15px;float:right;" id="buttonTask"><span
-                                class="glyphicon glyphicon-plus"></span></button>
+            <div >
+
             </div>
-            </div>
+            
         </div>
-        <br>
-        <label>Тип работы</label>
-        <br>
+        <div><label>Тип Работы</label></div>
         <select size="1" class="form-control selectpicker" id="type">
             <c:forEach items="${types}" var="type">
                 <option value=<c:out value="${type.getId()}"/>> ${type.getType()} </option>
