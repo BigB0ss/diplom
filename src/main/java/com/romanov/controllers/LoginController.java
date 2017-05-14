@@ -1,5 +1,6 @@
 package com.romanov.controllers;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by Kirill on 05.03.2017.
  */
 @Controller
+@Scope ("session")
 public class LoginController {
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)

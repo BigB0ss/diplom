@@ -1,9 +1,9 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: Kirill
-  Date: 05.03.2017
-  Time: 14:12
-  To change this template use File | Settings | File Templates.
+Created by IntelliJ IDEA.
+User: Kirill
+Date: 05.03.2017
+Time: 14:12
+To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -21,8 +21,10 @@
     <title>Создание нового технического задания</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/starter-template.css" />" rel="stylesheet">
+    <link href="<c:url value="
+    /resources/css/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="
+    /resources/css/starter-template.css" />" rel="stylesheet">
 
     <!-- Custom CSS -->
     <style>
@@ -37,6 +39,7 @@
 .borderless td, .borderless th {
     border: none;
 }
+
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -81,43 +84,45 @@
 </nav>
 
 <!-- Page Content -->
-<div  id="container">
+<div id="container">
     <div class="col-md-8 col-md-offset-2">
 
         <label>Название работы</label>
         <br>
-        <textarea class="form-control" id="name"  maxlength=8000></textarea>
+        <textarea class="form-control" id="name" maxlength=8000></textarea>
         <br>
         <label>Цель работы</label>
         <br>
         <textarea class="form-control" id="target"></textarea>
         <br>
-        <label >Основные Задачи</label>
+        <label>Основные Задачи</label>
         <br>
-        <div id="tasksContainer" >
-        <div class="col-md-12" style="padding-left:0px;">
-            <table class=" table table-hover  table-bordered  " style="" id="mainTasks">
-                <thead>
-                </thead>
-                <tbody id ="mainTaskBody" >
+        <div id="tasksContainer">
+            <div class="col-md-12" style="padding-left:0px;">
+                <table class=" table table-hover  table-bordered  " style="" id="mainTasks">
+                    <thead>
+                    </thead>
+                    <tbody id="mainTaskBody">
                     <td style="border: none;"><textarea class="form-control" type="text"></textarea></td>
-                    <td style="width:50px; border: none;"><button class="btn btn-addTask" style=" margin-top: 15px;float:left;" id="buttonTask">
+                    <td style="width:50px; border: none;">
+                        <button class="btn btn-addTask" style=" margin-top: 15px;float:left;" id="buttonTask">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </td>
-                </tbody>
-            </table>
-                
-            </div>
-            <div >
+                    </tbody>
+                </table>
 
             </div>
-            
+            <div>
+
+            </div>
+
         </div>
         <div><label>Тип Работы</label></div>
         <select size="1" class="form-control selectpicker" id="type">
             <c:forEach items="${types}" var="type">
-                <option value=<c:out value="${type.getId()}"/>> ${type.getType()} </option>
+                <option value=<c:out value="${type.getId()}"/>
+                > ${type.getType()} </option>
             </c:forEach>
         </select>
         <br>
@@ -126,31 +131,39 @@
         <select class="form-control" id="discipline">
             <c:forEach items="${disciplines}" var="discipline">
                 <option value=
-                        <c:out value="${discipline.getId()}"/>><c:out value="${discipline.getName()}"/></option>
+                                <c:out value="${discipline.getId()}"/>
+                >
+                <c:out value="${discipline.getName()}"/>
+                </option>
             </c:forEach>
         </select>
         <br>
-        <div class="claim">
-            <div class="custom-claim" id="custom-claim-container">
-                <div id="first-claim" class="claim-template">
-                    <label>Пункт Требований  </label>
-                    <br>
-                    <input class="form-control"  style="width: 90%;float: left;" type="text"/>
-                            <div>
-                                        <button class="btn btn-addPoint" style="float:right;" id="buttonTask"><span
-                                                class="glyphicon glyphicon-plus"></span></button>
-                            </div>
-                    <br>
-                    <label>Описание</label>
-                    <br>
-                    <div style="width: 90%; float: left;">
-                        <textarea class="form-control" type="text"></textarea>
-                    </div>
-                    <div>
-                        <button class="btn btn-add" style="float:right" id="buttonDescription"><span
-                                class="glyphicon glyphicon-plus"></span></button>
-                    </div>
-                </div>
+        <div class="col-md-12" id="claimContainer" style="padding-left:0px;">
+            <div class="col-md-12 claim" id="firstClaim" style="padding-left:0px;">
+                <label>Пункт Требований </label>
+                <table class=" table table-hover  table-bordered " style="" id="claim">
+                    <thead>
+                    </thead>
+                    <tbody id="claimBody">
+                    <tr>
+                        <td style="border: none;"><input class="form-control" type="text"
+                                                         placeholder="Название"></input></td>
+                        <td style="width:50px; border: none;">
+                            <button class="btn btn-addClaim" style=" float:left;" id="claimAdd">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: none;"><textarea class="form-control" placeholder="Подпункт"></textarea></td>
+                        <td style="border: none;">
+                            <button class="btn btn-addSubClaim" style=" margin-top: 15px;float:left;" id="subClaimAdd">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <button type="submit" value="Отправить" class="btn btn-secondary btn-lg"
@@ -184,31 +197,33 @@
         </div>
     </div>
 
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-  </div>
-</div>
     <!-- jQuery Version 1.11.1 -->
-    <script src="<c:url value="/resources/js/lib/jquery-3.2.0.js" />"></script>
+    <script src="<c:url value="
+    /resources/js/lib/jquery-3.2.0.js" />"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
-    <script src="<c:url value="/resources/js/tech-task.js" />"></script>
+    <script src="<c:url value="
+    /resources/js/tech-task.js" />"></script>
 
 </body>
 

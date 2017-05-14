@@ -70,20 +70,61 @@ $(function() {
         }
     });
 
+    $(document).on('click','.btn-addClaim', function(e) {
+        var newClaim =            "<div class=\"col-md-12 claim\" id=\"firstClaim\" style=\"padding-left:0px;\">"
+                                      +"<label>Пункт Требований </label>"
+                                      +"<table class=\" table table-hover  table-bordered \"  id=\"claim\">"
+                                      +    "<thead>"
+                                      +    "</thead>"
+                                      +   "<tbody id=\"claimBody\">"
+                                      +    "<tr>"
+                                      +        "<td style=\"border: none;\"><input class=\"form-control\" type=\"text\" placeholder=\"Название\"></input></td>"
+                                      +        "<td style=\"width:50px; border: none;\">"
+                                      +            "<button class=\"btn btn-addClaim\" style=\" float:left;\" id=\"claimAdd\">"
+                                      +                "<span class=\"glyphicon glyphicon-plus\"></span>"
+                                      +            "</button>"
+                                      +        "</td>"
+                                      +    "</tr>"
+                                      +    "<tr>"
+                                      +        "<td  ><textarea class=\"form-control\" placeholder=\"Подпункт\"></textarea></td>"
+                                      +        "<td >"
+                                      +            "<button class=\"btn btn-addSubClaim\" style=\" margin-top: 15px;float:left;\" id=\"subClaimAdd\">"
+                                      +                "<span class=\"glyphicon glyphicon-plus\"></span>"
+                                      +            "</button>"
+                                      +        "</td></tr></tbody></table></div>";
 
+        $('#claimContainer').append(newClaim);
+        $('#claimContainer').find('.btn-addClaim:not(:last)')
+                    .removeClass('btn-addClaim').addClass('btn-removeClaim')
+                    .html('<span class="glyphicon glyphicon-minus"></span>');
+    }).on('click', '.btn-removeClaim', function(e) {
+              var result = confirm("Вы точно хотите удалить Пункт ТЗ?");
+              if (result) {
+                  $(this).parent().parent().parent().parent().parent().remove();
+                  e.preventDefault();
+              }
+          });
 
+    $(document).on('click','.btn-addSubClaim', function(e) {
+        var subClaim = "<tr><td    style=\" border: none;\"><textarea class=\"form-control\" placeholder=\"Подпункт\"></textarea></td><td style=\"border: none;\"><button class=\"btn btn-addSubClaim\" style=\" margin-top: 15px;float:left;\" id=\"subClaimAdd\">"
+                                                                                                                                           +   "<span class=\"glyphicon glyphicon-plus\"></span>"
+                                                                                                                                          +"</button></td></tr>"
+        $(this).parent().parent().parent().append(subClaim);
+        $(this).parent().parent().parent().find('.btn-addSubClaim:not(:last)')
+            .removeClass('btn-addSubClaim').addClass('btn-removeSubClaim')
+            .html('<span class="glyphicon glyphicon-minus"></span>');
+    }).on('click', '.btn-removeSubClaim', function(e) {
+          var result = confirm("Вы точно хотите удалить Пункт ТЗ?");
+          if (result) {
+              $(this).parent().parent().remove();
+              e.preventDefault();
+          }
+    });
     //save technical-task
     $(document).on('click', '#submit', function(e) {
+        removeErrors();
         $('#name').removeClass('error');
         $('#target').removeClass('error');
-
-        $('.custom-claim').contents().find('input').each(function() {
-            $(this).removeClass('error');
-        });
-
-        $('.custom-claim').contents().find('textarea').each(function() {
-            $(this).removeClass('error');
-        });
 
         var name = $('#name').val().trim();
         var target = $('#target').val().trim();
@@ -94,7 +135,7 @@ $(function() {
         if (target == '') { $('#target').addClass('error') }
 
         var inputs = new Array();
-        $('.custom-claim').contents().find('input').each(function() {
+        $('#container').contents().find('input').each(function() {
             if ($(this).val().trim() == '') {
                 $(this).addClass('error');
             }
@@ -102,26 +143,14 @@ $(function() {
         });
 
         var textAreas = new Array();
-        $('.custom-claim').contents().find('textarea').each(function() {
+        $('#container').contents().find('textarea').each(function() {
             if ($(this).val().trim() == '') {
                 $(this).addClass('error');
             }
             textAreas.push($(this).val());
         });
 
-        var softwares = new Array();
-        $('#software').contents().find('input').each(function() {
-            if ($(this).is(":checked")) {
-                softwares.push($(this).attr("id"));
-            }
-        });
 
-        var hardwares = new Array();
-        $('#hardware').contents().find('input').each(function() {
-            if ($(this).is(":checked")) {
-                hardwares.push($(this).attr("id"));
-            }
-        });
 
         if ($('#container .error').length > 0) {
 
@@ -134,8 +163,6 @@ $(function() {
                 "dateCreated": new Date(),
                 "demand": inputs,
                 "demandDescription": textAreas,
-                "softwares": softwares,
-                "hardwares": hardwares
             }
             console.log(technicalTask);
             saveTechnicalTask(technicalTask);
@@ -192,3 +219,13 @@ $(function() {
 $(document).ready(function(e) {
     $('.btn-removeTask').trigger('click');
 });
+
+function removeErrors(){
+    $('#container').contents().find('input').each(function() {
+            $(this).removeClass('error');
+    });
+
+    $('#container').contents().find('textarea').each(function() {
+            $(this).removeClass('error');
+    });
+}

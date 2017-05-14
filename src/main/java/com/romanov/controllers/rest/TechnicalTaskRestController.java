@@ -12,6 +12,7 @@ import com.romanov.repository.HardwareRepository;
 import com.romanov.repository.SoftwareRepository;
 import com.romanov.repository.TechnicalTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
  */
 
 @RestController
+@Scope("session")
 public class TechnicalTaskRestController {
 
     @Autowired

@@ -6,6 +6,7 @@ import com.romanov.model.UserStudent;
 import com.romanov.model.UserTeacher;
 import com.romanov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by Kirill on 07.05.2017.
  */
 @RestController
+@Scope("session")
 public class UserRegistrationController {
 
     @Autowired

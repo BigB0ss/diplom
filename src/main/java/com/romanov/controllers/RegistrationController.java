@@ -5,6 +5,7 @@ import com.romanov.model.Group;
 import com.romanov.repository.CathedraRepository;
 import com.romanov.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by Kirill on 05.03.2017.
  */
 @Controller
+@Scope("session")
 public class RegistrationController {
 
     @Autowired
