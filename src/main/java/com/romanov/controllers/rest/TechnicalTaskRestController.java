@@ -53,11 +53,15 @@ public class TechnicalTaskRestController {
         task.setTypeTechnicalTask(json.findPath("type").asInt());
 
 
-        List<String> demandDescription = new ArrayList<>();
+        List<List<String>> demandDescription = new ArrayList<>();
         List<String> demand = new ArrayList<>();
         List<List<String>> claims = new ArrayList<>();
         String str=json.findPath("claims").toString();
         List<List<String>> list = reader.readValue(json.findPath("claims"));
+        for (List<String> elem: list) {
+            demand.add(elem.get(0));
+        }
+        demandDescription = list.stream().peek(elem->elem.remove(0)).collect(Collectors.toList());
         for (int i = 0; i < demand.size(); i++) {
             task.getDemands().put(demand.get(i), demandDescription.get(i));
         }

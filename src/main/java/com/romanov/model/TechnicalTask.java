@@ -14,12 +14,12 @@ public class TechnicalTask {
     private Date dateCompleted;
     private int discipline;
     private int typeTechnicalTask;
-    private Map<String, String> demands = new HashMap<>();
+    private Map<String, List<String>> demands = new HashMap<>();
 
     public TechnicalTask() {
     }
 
-    public TechnicalTask(long id, String name, String target, Date dateCreated, Date dateCompleted, int typeTechnicalTask, Map<String, String> demands) {
+    public TechnicalTask(long id, String name, String target, Date dateCreated, Date dateCompleted, int typeTechnicalTask, Map<String, List<String>> demands) {
         this.id = id;
         this.name = name;
         this.target = target;
@@ -86,11 +86,11 @@ public class TechnicalTask {
         this.tasks = tasks;
     }
 
-    public Map<String, String> getDemands() {
+    public Map<String, List<String>> getDemands() {
         return demands;
     }
 
-    public void setDemands(Map<String, String> demands) {
+    public void setDemands(Map<String, List<String>> demands) {
         this.demands = demands;
     }
 

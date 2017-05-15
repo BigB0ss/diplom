@@ -34,7 +34,7 @@ public class TechnicalTaskRepository {
         return tasks;
     }
 
-    public void addTechnicalTask(TechnicalTask task){
+   /* public void addTechnicalTask(TechnicalTask task){
         String sql="INSERT INTO heroku_2f77cfed4c2105d.techincal_task (name, target, type_id, date_create,  discipline_id) VALUES (:name,:target, :type_id, :date_create, :discipline_id);";
         KeyHolder keyHolder=new GeneratedKeyHolder();
         MapSqlParameterSource  namedParametrs= new MapSqlParameterSource();
@@ -59,6 +59,6 @@ public class TechnicalTaskRepository {
             namedParametrs.put("techincal_task_id",idTechnicalTask);
             namedParameterJdbcTemplate.update(sql,namedParametrs);
         }
-    }
+    }*/
 
 }
