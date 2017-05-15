@@ -9,26 +9,24 @@ public class TechnicalTask {
     private long id;
     private String name;
     private String target;
+    private List<String> tasks;
     private Date dateCreated;
-    private Date dateComplted;
+    private Date dateCompleted;
     private int discipline;
     private int typeTechnicalTask;
-    private List<Integer> hardware = new ArrayList<>();
-    private List<Integer> software = new ArrayList<>();
     private Map<String, String> demands = new HashMap<>();
 
     public TechnicalTask() {
     }
 
-    public TechnicalTask(long id, String name, String target, Date dateCreated, Date dateComplted, int typeTechnicalTask, List<Integer> hardware, List<Integer> software, Map<String, String> demands) {
+    public TechnicalTask(long id, String name, String target, Date dateCreated, Date dateCompleted, int typeTechnicalTask, Map<String, String> demands) {
         this.id = id;
         this.name = name;
         this.target = target;
         this.dateCreated = dateCreated;
-        this.dateComplted = dateComplted;
+        this.dateCompleted = dateCompleted;
         this.typeTechnicalTask = typeTechnicalTask;
-        this.hardware = hardware;
-        this.software = software;
+
         this.demands = demands;
     }
 
@@ -65,11 +63,11 @@ public class TechnicalTask {
     }
 
     public Date getDateComplted() {
-        return dateComplted;
+        return dateCompleted;
     }
 
     public void setDateComplted(Date dateComplted) {
-        this.dateComplted = dateComplted;
+        this.dateCompleted = dateComplted;
     }
 
     public int getTypeTechnicalTask() {
@@ -80,20 +78,12 @@ public class TechnicalTask {
         this.typeTechnicalTask = typeTechnicalTask;
     }
 
-    public List<Integer> getHardware() {
-        return hardware;
+    public List<String> getTasks() {
+        return tasks;
     }
 
-    public void setHardware(List<Integer> hardware) {
-        this.hardware = hardware;
-    }
-
-    public List<Integer> getSoftware() {
-        return software;
-    }
-
-    public void setSoftware(List<Integer> software) {
-        this.software = software;
+    public void setTasks(List<String> tasks) {
+        this.tasks = tasks;
     }
 
     public Map<String, String> getDemands() {
@@ -124,9 +114,8 @@ public class TechnicalTask {
         if (!name.equals(that.name)) return false;
         if (!target.equals(that.target)) return false;
         if (!dateCreated.equals(that.dateCreated)) return false;
-        if (!dateComplted.equals(that.dateComplted)) return false;
-        if (hardware != null ? !hardware.equals(that.hardware) : that.hardware != null) return false;
-        if (software != null ? !software.equals(that.software) : that.software != null) return false;
+        if (!dateCompleted.equals(that.dateCompleted)) return false;
+
         return demands != null ? demands.equals(that.demands) : that.demands == null;
     }
 
@@ -136,10 +125,9 @@ public class TechnicalTask {
         result = 31 * result + name.hashCode();
         result = 31 * result + target.hashCode();
         result = 31 * result + dateCreated.hashCode();
-        result = 31 * result + dateComplted.hashCode();
+        result = 31 * result + dateCompleted.hashCode();
         result = 31 * result + typeTechnicalTask;
-        result = 31 * result + (hardware != null ? hardware.hashCode() : 0);
-        result = 31 * result + (software != null ? software.hashCode() : 0);
+
         result = 31 * result + (demands != null ? demands.hashCode() : 0);
         return result;
     }
@@ -151,10 +139,8 @@ public class TechnicalTask {
                 ", name='" + name + '\'' +
                 ", target='" + target + '\'' +
                 ", dateCreated=" + dateCreated +
-                ", dateComplted=" + dateComplted +
+                ", dateCompleted=" + dateCompleted +
                 ", typeTechnicalTask=" + typeTechnicalTask +
-                ", hardware=" + hardware +
-                ", software=" + software +
                 ", demands=" + demands +
                 ",discipline=" + discipline +
                 '}';

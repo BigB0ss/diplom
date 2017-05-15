@@ -86,8 +86,8 @@ $(function() {
                                       +        "</td>"
                                       +    "</tr>"
                                       +    "<tr>"
-                                      +        "<td  ><textarea class=\"form-control\" placeholder=\"Подпункт\"></textarea></td>"
-                                      +        "<td >"
+                                      +        "<td style=\"border: none;\" ><textarea class=\"form-control\" placeholder=\"Подпункт\"></textarea></td>"
+                                      +        "<td style=\"border: none;\">"
                                       +            "<button class=\"btn btn-addSubClaim\" style=\" margin-top: 15px;float:left;\" id=\"subClaimAdd\">"
                                       +                "<span class=\"glyphicon glyphicon-plus\"></span>"
                                       +            "</button>"
@@ -134,20 +134,37 @@ $(function() {
         if (name == '') { $('#name').addClass('error') }
         if (target == '') { $('#target').addClass('error') }
 
-        var inputs = new Array();
+        var tasksTextArea = [];
+        var tasks = [];
+        tasksTextArea = $('#tasksContainer').find('textarea');
+        tasks = $.map(tasksTextArea, function(elem) {
+            return $(elem).val();
+        });
+
+        claimsInForm = $('.claim');
+        var claims = [];
+        $.each(claimsInForm, function(index, elem) {
+/*            input.push($(elem).find('input').val());
+            claim.push(input);*/
+            var textareas = $(elem).find('textarea');
+            var subClaims = [];
+            subClaims.push($(elem).find('input').val());
+            $.each(textareas, function(index, value) {
+                subClaims.push($(value).val());
+            });
+            claims.push(subClaims);
+        });
+
         $('#container').contents().find('input').each(function() {
             if ($(this).val().trim() == '') {
                 $(this).addClass('error');
             }
-            inputs.push($(this).val().trim());
         });
 
-        var textAreas = new Array();
         $('#container').contents().find('textarea').each(function() {
             if ($(this).val().trim() == '') {
                 $(this).addClass('error');
             }
-            textAreas.push($(this).val());
         });
 
 
@@ -159,11 +176,13 @@ $(function() {
                 "name": name,
                 "target": target,
                 "type": type,
+                "tasks": tasks,
+                "claims": claims,
                 "discipline": discipline,
                 "dateCreated": new Date(),
-                "demand": inputs,
-                "demandDescription": textAreas,
+
             }
+            debugger;
             console.log(technicalTask);
             saveTechnicalTask(technicalTask);
         }

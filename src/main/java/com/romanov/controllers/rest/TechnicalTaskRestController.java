@@ -36,11 +36,12 @@ public class TechnicalTaskRestController {
     private TechnicalTaskRepository technicalTaskRepository;
 
 
-
     @RequestMapping(value = "/rest/technical-task", method = RequestMethod.POST)
     public HttpStatus addTecgnicalTask(@RequestBody JsonNode json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-
+        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<List<String>>>() {
+        });
+        //ObjectReader reader = objectMapper.reader();
         System.out.println(json.toString());
 
         TechnicalTask task = new TechnicalTask();
@@ -50,19 +51,18 @@ public class TechnicalTaskRestController {
         task.setTarget(json.findPath("target").asText());
         task.setDiscipline(json.findPath("discipline").asInt());
         task.setTypeTechnicalTask(json.findPath("type").asInt());
-        json.findPath("hardwares").forEach(elem -> task.getHardware().add(elem.asInt()));
-        json.findPath("softwares").forEach(elem -> task.getSoftware().add(elem.asInt()));
+
 
         List<String> demandDescription = new ArrayList<>();
         List<String> demand = new ArrayList<>();
-        json.findPath("demandDescription").forEach(elem -> demandDescription.add(elem.asText()));
-        json.findPath("demand").forEach(elem -> demand.add(elem.asText()));
-
+        List<List<String>> claims = new ArrayList<>();
+        String str=json.findPath("claims").toString();
+        List<List<String>> list = reader.readValue(json.findPath("claims"));
         for (int i = 0; i < demand.size(); i++) {
             task.getDemands().put(demand.get(i), demandDescription.get(i));
         }
         System.out.println(task);
-        technicalTaskRepository.addTechnicalTask(task);
+        //technicalTaskRepository.addTechnicalTask(task);
         return HttpStatus.CREATED;
 
     }
