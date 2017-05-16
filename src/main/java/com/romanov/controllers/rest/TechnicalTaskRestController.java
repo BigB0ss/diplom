@@ -51,7 +51,7 @@ public class TechnicalTaskRestController {
         task.setTarget(json.findPath("target").asText());
         task.setDiscipline(json.findPath("discipline").asInt());
         task.setTypeTechnicalTask(json.findPath("type").asInt());
-
+        task.setDateCreated(new Date());
 
         List<List<String>> demandDescription = new ArrayList<>();
         List<String> demand = new ArrayList<>();
@@ -66,7 +66,7 @@ public class TechnicalTaskRestController {
             task.getDemands().put(demand.get(i), demandDescription.get(i));
         }
         System.out.println(task);
-        //technicalTaskRepository.addTechnicalTask(task);
+        technicalTaskRepository.addTechnicalTask(task);
         return HttpStatus.CREATED;
 
     }
