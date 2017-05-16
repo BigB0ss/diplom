@@ -41,6 +41,8 @@ public class TechnicalTaskRestController {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectReader reader = objectMapper.readerFor(new TypeReference<List<List<String>>>() {
         });
+        ObjectReader reader1 = objectMapper.readerFor(new TypeReference<List<String>>() {
+        });
         //ObjectReader reader = objectMapper.reader();
         System.out.println(json.toString());
 
@@ -51,6 +53,7 @@ public class TechnicalTaskRestController {
         task.setTarget(json.findPath("target").asText());
         task.setDiscipline(json.findPath("discipline").asInt());
         task.setTypeTechnicalTask(json.findPath("type").asInt());
+        task.setTasks(reader1.readValue(json.findPath("tasks")));
         task.setDateCreated(new Date());
 
         List<List<String>> demandDescription = new ArrayList<>();

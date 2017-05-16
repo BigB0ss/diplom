@@ -1,6 +1,7 @@
 package com.romanov.repository;
 
 import com.romanov.model.TechnicalTask;
+import javafx.concurrent.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,7 +44,13 @@ public class TechnicalTaskRepository {
         namedParametrs.addValue("date_create", task.getDateCreated());
         namedParametrs.addValue("discipline_id", task.getDiscipline());
         namedParameterJdbcTemplate.update(sql, namedParametrs, keyHolder, new String[]{"ID"});
-        System.out.println(keyHolder.getKey());
+        final String insertTarget = "Insert into heroku_2f77cfed4c2105d.tasks (description,techincal_task_id) VAlUES(:description,:techincal_task_id)";
+        for (String t : task.getTasks()) {
+            MapSqlParameterSource msqp = new MapSqlParameterSource();
+            msqp.addValue("description", t);
+            msqp.addValue("techincal_task_id",keyHolder.getKey());
+            namedParameterJdbcTemplate.update(insertTarget,msqp);
+        }
         addSubSection(task, keyHolder.getKey());
     }
 
@@ -55,14 +62,15 @@ public class TechnicalTaskRepository {
             String demand = entry.getKey();
             List<String> subDemand = entry.getValue();
             MapSqlParameterSource namedParametrs = new MapSqlParameterSource();
-            namedParametrs.addValue("description",demand);
-            namedParameterJdbcTemplate.update(insertDemand,namedParametrs,keyHolder, new String[]{"ID"});
+            namedParametrs.addValue("description", demand);
+            namedParameterJdbcTemplate.update(insertDemand, namedParametrs, keyHolder, new String[]{"ID"});
             for (String elem : subDemand) {
                 final String inserSubDemands = "Insert into heroku_2f77cfed4c2105d.subsections (description, techincal_task_id, section_id) Values (:description, :techincal_task_id,:section_id ); ";
                 MapSqlParameterSource subNamedParametrs = new MapSqlParameterSource();
                 subNamedParametrs.addValue("description", elem);
                 subNamedParametrs.addValue("techincal_task_id", idTechnicalTask);
-                subNamedParametrs.addValue("section_id",keyHolder.getKey());
+                subNamedParametrs.addValue("section_id", keyHolder.getKey());
+                namedParameterJdbcTemplate.update(inserSubDemands, subNamedParametrs);
             }
         }
 
