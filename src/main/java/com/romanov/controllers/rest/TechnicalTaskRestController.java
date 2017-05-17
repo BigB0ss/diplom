@@ -4,12 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.romanov.model.Hardware;
-import com.romanov.model.Software;
+
 import com.romanov.model.TechnicalTask;
-import com.romanov.repository.HardwareRepository;
-import com.romanov.repository.SoftwareRepository;
+
 import com.romanov.repository.TechnicalTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -17,11 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
 import java.util.stream.Collectors;
 
 /**
@@ -59,12 +56,12 @@ public class TechnicalTaskRestController {
         List<List<String>> demandDescription = new ArrayList<>();
         List<String> demand = new ArrayList<>();
         List<List<String>> claims = new ArrayList<>();
-        String str=json.findPath("claims").toString();
+        String str = json.findPath("claims").toString();
         List<List<String>> list = reader.readValue(json.findPath("claims"));
-        for (List<String> elem: list) {
+        for (List<String> elem : list) {
             demand.add(elem.get(0));
         }
-        demandDescription = list.stream().peek(elem->elem.remove(0)).collect(Collectors.toList());
+        demandDescription = list.stream().peek(elem -> elem.remove(0)).collect(Collectors.toList());
         for (int i = 0; i < demand.size(); i++) {
             task.getDemands().put(demand.get(i), demandDescription.get(i));
         }
