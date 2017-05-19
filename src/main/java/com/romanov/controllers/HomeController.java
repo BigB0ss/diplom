@@ -38,10 +38,14 @@ public class HomeController {
     @Autowired
     private HardwareRepository hardwareRepository;
 
-    @RequestMapping(value = "/home")
+    
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home() {
+
         return "home";
     }
+
+
 
     @RequestMapping(value = "/home/create-technical-task", method = RequestMethod.GET)
     public String createTechnicalTask(Model model) {

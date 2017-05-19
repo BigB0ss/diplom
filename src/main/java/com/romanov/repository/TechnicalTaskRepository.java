@@ -59,8 +59,8 @@ public class TechnicalTaskRepository {
         for (String t : task.getTasks()) {
             MapSqlParameterSource msqp = new MapSqlParameterSource();
             msqp.addValue("description", t);
-            msqp.addValue("techincal_task_id",keyHolder.getKey());
-            namedParameterJdbcTemplate.update(insertTarget,msqp);
+            msqp.addValue("techincal_task_id", keyHolder.getKey());
+            namedParameterJdbcTemplate.update(insertTarget, msqp);
         }
         addSubSection(task, keyHolder.getKey());
         addSignatures(keyHolder.getKey());
@@ -91,18 +91,18 @@ public class TechnicalTaskRepository {
     public void addSignatures(Number idTechnicalTask) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.getUserByUserName(authentication.getName());
-        if (user.getRole().equals(ROLE_TEACHER)|| user.getRole().equals(ROLE_ADMIN)) {
+        if (user.getRole().equals(ROLE_TEACHER) || user.getRole().equals(ROLE_ADMIN)) {
             final String sql = "Insert into heroku_2f77cfed4c2105d.signatures (techincal_task_id, teachers_users_id) VALUES(:techincal_task_id,:teachers_users_id)";
             MapSqlParameterSource source = new MapSqlParameterSource();
-            source.addValue("techincal_task_id",idTechnicalTask);
-            source.addValue("teachers_users_id",user.getId());
-            namedParameterJdbcTemplate.update(sql,source);
+            source.addValue("techincal_task_id", idTechnicalTask);
+            source.addValue("teachers_users_id", user.getId());
+            namedParameterJdbcTemplate.update(sql, source);
         } else {
             final String sql = "Insert into heroku_2f77cfed4c2105d.signatures (techincal_task_id, students_users_id) VALUES(:techincal_task_id,:students_users_id)";
             MapSqlParameterSource source = new MapSqlParameterSource();
-            source.addValue("techincal_task_id",idTechnicalTask);
-            source.addValue("students_users_id",user.getId());
-            namedParameterJdbcTemplate.update(sql,source);
+            source.addValue("techincal_task_id", idTechnicalTask);
+            source.addValue("students_users_id", user.getId());
+            namedParameterJdbcTemplate.update(sql, source);
         }
     }
 
