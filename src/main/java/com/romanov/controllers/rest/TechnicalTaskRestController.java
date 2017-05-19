@@ -40,11 +40,8 @@ public class TechnicalTaskRestController {
         });
         ObjectReader reader1 = objectMapper.readerFor(new TypeReference<List<String>>() {
         });
-        //ObjectReader reader = objectMapper.reader();
-        System.out.println(json.toString());
 
         TechnicalTask task = new TechnicalTask();
-
         task.setName(json.findPath("name").asText());
         task.setDateCreated(new Date());
         task.setTarget(json.findPath("target").asText());

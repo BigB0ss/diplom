@@ -1,6 +1,8 @@
 package com.romanov.repository;
 
 import com.romanov.model.TechnicalTask;
+import com.romanov.model.User;
+import com.romanov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,7 +10,10 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
@@ -27,12 +32,19 @@ public class TechnicalTaskRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Autowired
+    private UserService userService;
+
     public List<TechnicalTask> getAll() {
         List<TechnicalTask> tasks = new ArrayList<>();
         return tasks;
     }
 
-    @Transactional
+    private final static String ROLE_STUDENT = "ROLE_STUDENT";
+    private final static String ROLE_TEACHER = "ROLE_TEACHER";
+    private final static String ROLE_ADMIN = "ROLE_ADMIN";
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void addTechnicalTask(TechnicalTask task) {
         final String sql = "INSERT INTO heroku_2f77cfed4c2105d.techincal_task (name, target, type_id, date_create,  discipline_id) VALUES (:name,:target, :type_id, :date_create, :discipline_id);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -51,9 +63,10 @@ public class TechnicalTaskRepository {
             namedParameterJdbcTemplate.update(insertTarget,msqp);
         }
         addSubSection(task, keyHolder.getKey());
+        addSignatures(keyHolder.getKey());
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public void addSubSection(TechnicalTask task, Number idTechnicalTask) {
         final String insertDemand = "Insert into heroku_2f77cfed4c2105d.section (description) VALUES (:description);";
         for (Map.Entry<String, List<String>> entry : task.getDemands().entrySet()) {
@@ -72,41 +85,25 @@ public class TechnicalTaskRepository {
                 namedParameterJdbcTemplate.update(inserSubDemands, subNamedParametrs);
             }
         }
-
-        String sql = "INSERT INTO heroku_2f77cfed4c2105d.subsections (description,techincal_task_id,section_id, demand) VALUES (:description, :techincal_task_id, 1, :demand);";
-/*        for (Map.Entry<String, String> entry : task.getDemands().entrySet()) {
-            Map namedParametrs = new HashMap();
-            namedParametrs.put("description", entry.getValue());
-            namedParametrs.put("demand", entry.getKey());
-            namedParametrs.put("techincal_task_id", idTechnicalTask);
-            namedParameterJdbcTemplate.update(sql, namedParametrs);
-        }*/
-    }
-   /* public void addTechnicalTask(TechnicalTask task){
-        String sql="INSERT INTO heroku_2f77cfed4c2105d.techincal_task (name, target, type_id, date_create,  discipline_id) VALUES (:name,:target, :type_id, :date_create, :discipline_id);";
-        KeyHolder keyHolder=new GeneratedKeyHolder();
-        MapSqlParameterSource  namedParametrs= new MapSqlParameterSource();
-        namedParametrs.addValue("name",task.getName());
-        namedParametrs.addValue("target",task.getTarget());
-        namedParametrs.addValue("type_id",task.getTypeTechnicalTask());
-        namedParametrs.addValue("date_create",task.getDateCreated());
-        namedParametrs.addValue("discipline_id",task.getDiscipline());
-        namedParameterJdbcTemplate.update(sql,namedParametrs,keyHolder, new String[]{"ID"});
-        System.out.println(keyHolder.getKey());
-        addSubSection(task,keyHolder.getKey());
     }
 
-    public void addSubSection(TechnicalTask task, Number idTechnicalTask){
-        List<String> demand=new ArrayList<>(task.getDemands().keySet());
-        List<String> description=new ArrayList<>(task.getDemands().values());
-        String sql="INSERT INTO heroku_2f77cfed4c2105d.subsections (description,techincal_task_id,section_id, demand) VALUES (:description, :techincal_task_id, 1, :demand);";
-        for(Map.Entry<String,String> entry: task.getDemands().entrySet()){
-            Map namedParametrs=new HashMap();
-            namedParametrs.put("description",entry.getValue());
-            namedParametrs.put("demand",entry.getKey());
-            namedParametrs.put("techincal_task_id",idTechnicalTask);
-            namedParameterJdbcTemplate.update(sql,namedParametrs);
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addSignatures(Number idTechnicalTask) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByUserName(authentication.getName());
+        if (user.getRole().equals(ROLE_TEACHER)|| user.getRole().equals(ROLE_ADMIN)) {
+            final String sql = "Insert into heroku_2f77cfed4c2105d.signatures (techincal_task_id, teachers_users_id) VALUES(:techincal_task_id,:teachers_users_id)";
+            MapSqlParameterSource source = new MapSqlParameterSource();
+            source.addValue("techincal_task_id",idTechnicalTask);
+            source.addValue("teachers_users_id",user.getId());
+            namedParameterJdbcTemplate.update(sql,source);
+        } else {
+            final String sql = "Insert into heroku_2f77cfed4c2105d.signatures (techincal_task_id, students_users_id) VALUES(:techincal_task_id,:students_users_id)";
+            MapSqlParameterSource source = new MapSqlParameterSource();
+            source.addValue("techincal_task_id",idTechnicalTask);
+            source.addValue("students_users_id",user.getId());
+            namedParameterJdbcTemplate.update(sql,source);
         }
-    }*/
+    }
 
 }
