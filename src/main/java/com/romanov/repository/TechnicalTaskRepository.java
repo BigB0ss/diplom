@@ -1,11 +1,13 @@
 package com.romanov.repository;
 
+import com.romanov.model.Demand;
 import com.romanov.model.TechnicalTask;
 import com.romanov.model.User;
 import com.romanov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -17,8 +19,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Kirill on 08.03.2017.
@@ -44,7 +48,7 @@ public class TechnicalTaskRepository {
     private final static String ROLE_TEACHER = "ROLE_TEACHER";
     private final static String ROLE_ADMIN = "ROLE_ADMIN";
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void addTechnicalTask(TechnicalTask task) {
         final String sql = "INSERT INTO heroku_2f77cfed4c2105d.techincal_task (name, target, type_id, date_create,  discipline_id) VALUES (:name,:target, :type_id, :date_create, :discipline_id);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -66,7 +70,7 @@ public class TechnicalTaskRepository {
         addSignatures(keyHolder.getKey());
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public void addSubSection(TechnicalTask task, Number idTechnicalTask) {
         final String insertDemand = "Insert into heroku_2f77cfed4c2105d.section (description) VALUES (:description);";
         for (Map.Entry<String, List<String>> entry : task.getDemands().entrySet()) {
@@ -87,7 +91,7 @@ public class TechnicalTaskRepository {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public void addSignatures(Number idTechnicalTask) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.getUserByUserName(authentication.getName());
@@ -103,6 +107,123 @@ public class TechnicalTaskRepository {
             source.addValue("techincal_task_id", idTechnicalTask);
             source.addValue("students_users_id", user.getId());
             namedParameterJdbcTemplate.update(sql, source);
+        }
+    }
+
+    @Transactional
+    public List<TechnicalTask> getAllTaskForUser(User user) {
+        List<TechnicalTask> ttList = new ArrayList<>();
+        if (user.getRole().equals("ROLE_STUDENT")) {
+            final String sql = "Select techincal_task_id from heroku_2f77cfed4c2105d.signatures where students_users_id = ?;";
+            MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+            List<Integer> techTaskId = jdbcTemplate.query(sql, new Object[]{user.getId()}, new RowMapper<Integer>() {
+                @Override
+                public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                    return resultSet.getInt("techincal_task_id");
+                }
+            });
+            for (Integer ttId : techTaskId) {
+                ttList.add(getTechnicalTaskById(ttId));
+            }
+        }
+        return ttList;
+    }
+
+    public TechnicalTask getTechnicalTaskById(Integer id) {
+        final String sql = "Select * from heroku_2f77cfed4c2105d.techincal_task where id = ?";
+        TechnicalTask task = jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<TechnicalTask>() {
+            @Override
+            public TechnicalTask mapRow(ResultSet resultSet, int i) throws SQLException {
+                TechnicalTask technicalTask = new TechnicalTask();
+                technicalTask.setId(resultSet.getInt("id"));
+                technicalTask.setName(resultSet.getString("name"));
+                technicalTask.setTarget(resultSet.getString("target"));
+                technicalTask.setTypeTechnicalTask(resultSet.getInt("type_id"));
+                technicalTask.setDateCreated(resultSet.getDate("date_create"));
+                technicalTask.setDiscipline(resultSet.getInt("discipline_id"));
+                return technicalTask;
+            }
+        });
+        task.setTasks(getTasksInTechinicalTask(id));
+        task.setDemands(getDemandsInTechnicalTask(id));
+        return task;
+    }
+
+    public List<String> getTasksInTechinicalTask(Integer id) {
+        final String sql = "Select * from heroku_2f77cfed4c2105d.tasks where id = ?";
+        return jdbcTemplate.query(sql, new Object[]{id}, new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet resultSet, int i) throws SQLException {
+                return resultSet.getString("description");
+            }
+        });
+    }
+
+    public Map<String, List<String>> getDemandsInTechnicalTask(Integer id) {
+        Map<String, List<String>> result = new HashMap<>();
+        final String sql = "SELECT * FROM heroku_2f77cfed4c2105d.subsections where techincal_task_id =?";
+
+        List<Demand> demands = jdbcTemplate.query(sql, new Object[]{id}, new RowMapper<Demand>() {
+            @Override
+            public Demand mapRow(ResultSet resultSet, int i) throws SQLException {
+                Demand demand = new Demand();
+                demand.setId(resultSet.getInt("id"));
+                demand.setDescription(resultSet.getString("description"));
+                demand.setSectionId(resultSet.getInt("section_id"));
+                demand.setTechnicalTaskId(resultSet.getInt("techincal_task_id"));
+                return demand;
+            }
+        });
+
+        String getSection = "Select* from heroku_2f77cfed4c2105d.section where id=?";
+        List<Integer> sectionIds = demands.stream().map(demand -> demand.getSectionId()).collect(Collectors.toList());
+        List<Section> sections = new ArrayList<>();
+        for (Integer idSection : sectionIds) {
+            Section section = jdbcTemplate.queryForObject(getSection, new Object[]{idSection}, new RowMapper<Section>() {
+                @Override
+                public Section mapRow(ResultSet resultSet, int i) throws SQLException {
+                    Section section1 = new Section();
+                    section1.setId(resultSet.getInt("id"));
+                    section1.setDescription(resultSet.getString("description"));
+                    return section1;
+                }
+            });
+            sections.add(section);
+        }
+        sections.stream().forEach(section -> {
+            int idSection = section.getId();
+            List<String> subSection = demands.stream().filter(demand -> demand.getSectionId().equals(idSection)).map(demand -> demand.getDescription()).collect(Collectors.toList());
+            result.put(section.getDescription(), subSection);
+        });
+        return result;
+    }
+
+    private class Section {
+        private int id;
+        private String description;
+
+        public Section() {
+        }
+
+        public Section(int id, String description) {
+            this.id = id;
+            this.description = description;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
     }
 

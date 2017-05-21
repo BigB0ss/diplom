@@ -98,7 +98,7 @@ To change this template use File | Settings | File Templates.
         <label>Основные Задачи</label>
         <br>
         <div id="tasksContainer">
-            <div class="col-md-12" style="padding-left:0px;">
+            <div class="col-md-12" style="padding-left:0px; padding-right: 0px;">
                 <table class=" table table-hover  table-bordered  " style="" id="mainTasks">
                     <thead>
                     </thead>
@@ -138,9 +138,9 @@ To change this template use File | Settings | File Templates.
             </c:forEach>
         </select>
         <br>
-        <div class="col-md-12" id="claimContainer" style="padding-left:0px;">
-            <div class="col-md-12 claim" id="firstClaim" style="padding-left:0px;">
-                <label>Пункт Требований </label>
+        <div class="col-md-12" id="claimContainer" style="padding-left:0px;     padding-right: 0px;">
+            <div class="col-md-12 claim" id="firstClaim" style="padding-left:0px;     padding-right: 0px;">
+                <label>Новый раздел ТЗ </label>
                 <table class=" table table-hover  table-bordered " style="" id="claim">
                     <thead>
                     </thead>
@@ -155,7 +155,7 @@ To change this template use File | Settings | File Templates.
                         </td>
                     </tr>
                     <tr>
-                        <td style="border: none;"><textarea class="form-control" placeholder="Подпункт"></textarea></td>
+                        <td style="border: none;"><textarea class="form-control" placeholder="Подраздел"></textarea></td>
                         <td style="border: none;">
                             <button class="btn btn-addSubClaim" style=" margin-top: 15px;float:left;" id="subClaimAdd">
                                 <span class="glyphicon glyphicon-plus"></span>

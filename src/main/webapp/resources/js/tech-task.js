@@ -71,7 +71,7 @@ $(function() {
     });
 
     $(document).on('click','.btn-addClaim', function(e) {
-        var newClaim =            "<div class=\"col-md-12 claim\" id=\"firstClaim\" style=\"padding-left:0px;\">"
+        var newClaim =            "<div class=\"col-md-12 claim\" id=\"firstClaim\" style=\"padding-left:0px; padding-right: 0px;\">"
                                       +"<label>Пункт Требований </label>"
                                       +"<table class=\" table table-hover  table-bordered \"  id=\"claim\">"
                                       +    "<thead>"

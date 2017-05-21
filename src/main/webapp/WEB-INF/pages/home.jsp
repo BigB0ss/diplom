@@ -1,12 +1,13 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: Kirill
-  Date: 15.03.2017
-  Time: 23:43
-  To change this template use File | Settings | File Templates.
+Created by IntelliJ IDEA.
+User: Kirill
+Date: 15.03.2017
+Time: 23:43
+To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <style>
     body {
         padding-top: 50px;
@@ -16,6 +17,13 @@
         padding: 40px 15px;
         text-align: center;
     }
+
+
+
+
+
+
+
 
 </style>
 <html lang="en">
@@ -28,8 +36,10 @@
     <!-- Latest compiled and minified CSS -->
     <!-- Latest compiled and minified CSS -->
     <!-- Latest compiled JavaScript -->
-    <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/starter-template.css" />" rel="stylesheet">
+    <link href="<c:url value="
+    /resources/css/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="
+    /resources/css/starter-template.css" />" rel="stylesheet">
 </head>
 
 <body>
@@ -43,22 +53,63 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="#">Об приложении</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/home/create-technical-task">Создать Техническое задание</a></li>
-                <li><a href="#about">About</a></li>
                 <li><a href="/logout">Выход</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
-
 <div class="container">
+    <div class="row">
+        <sec:authorize access="hasRole('ROLE_STUDENT')">
+            <div class="col-lg-12 col-lg-offset-2">
+                <div class="col-xs-8 col-xs-offset-3"><h4>Ваши технические задания</h4></div>
+            </div>
+        </sec:authorize>
+    </div>
+    <div class="row" style="">
+        <sec:authorize access="hasRole('ROLE_STUDENT')">
+            <div id="studentTechTask" class="col-lg-12 ">
+                <c:if test="${technicalTasks.isEmpty()}">
+                    <p>Пока список ваших заданий пуст. </p>
+                </c:if>
+                <c:if test="${!technicalTasks.isEmpty()}">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Дата Создания</th>
+                            <th>Тип</th>
+                            <th>Дисциплина</th>
+                            <th>Опции</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${technicalTasks}" var="technicalTasks">
+                            <tr>
+                                <td>${technicalTasks.getName()}</td>
+                                <td>${technicalTasks.getDateCreated()}</td>
+                                <td>${technicalTasks.getTypeTechnicalTask()}</td>
+                                <td>${technicalTasks.getDiscipline()}</td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary btn-sm">Редактировать</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">Копровать</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">Удалить</button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
 
+                    </table>
+                </c:if>
 
-
+            </div>
+        </sec:authorize>
+    </div>
 </div><!-- /.container -->
 
 
@@ -66,7 +117,8 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <!-- jQuery Version 1.11.1 -->
-<script src="<c:url value="/resources/js/lib/jquery-3.2.0.js" />"></script>
+<script src="<c:url value="
+/resources/js/lib/jquery-3.2.0.js" />"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>

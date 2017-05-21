@@ -41,4 +41,18 @@ public class DisciplineRepository {
         });
         return types;
     }
+    public Discipline getDisciplineById( Long id) {
+        String sql = "SELECT * FROM heroku_2f77cfed4c2105d.discipline where id=?;";
+        Discipline discipline = jdbcTemplate.queryForObject(sql,  new Object[]{id}, new RowMapper<Discipline>() {
+            @Override
+            public Discipline mapRow(ResultSet resultSet, int i) throws SQLException {
+                Discipline discipline = new Discipline();
+                discipline.setId(resultSet.getInt("id"));
+                discipline.setName(resultSet.getString("name"));
+                discipline.setDescription(resultSet.getString("description"));
+                return discipline;
+            }
+        });
+        return discipline;
+    }
 }
