@@ -115,7 +115,18 @@ public class TechnicalTaskRepository {
         List<TechnicalTask> ttList = new ArrayList<>();
         if (user.getRole().equals("ROLE_STUDENT")) {
             final String sql = "Select techincal_task_id from heroku_2f77cfed4c2105d.signatures where students_users_id = ?;";
-            MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+            List<Integer> techTaskId = jdbcTemplate.query(sql, new Object[]{user.getId()}, new RowMapper<Integer>() {
+                @Override
+                public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                    return resultSet.getInt("techincal_task_id");
+                }
+            });
+            for (Integer ttId : techTaskId) {
+                ttList.add(getTechnicalTaskById(ttId));
+            }
+        }
+        if (user.getRole().equals("ROLE_TEACHER") || user.getRole().equals("ROLE_ADMIN")) {
+            final String sql = "Select techincal_task_id from heroku_2f77cfed4c2105d.signatures where teachers_users_id = ?;";
             List<Integer> techTaskId = jdbcTemplate.query(sql, new Object[]{user.getId()}, new RowMapper<Integer>() {
                 @Override
                 public Integer mapRow(ResultSet resultSet, int i) throws SQLException {

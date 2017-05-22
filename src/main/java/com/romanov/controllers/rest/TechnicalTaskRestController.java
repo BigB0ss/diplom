@@ -7,10 +7,13 @@ import com.fasterxml.jackson.databind.ObjectReader;
 
 import com.romanov.model.TechnicalTask;
 
+import com.romanov.model.User;
 import com.romanov.repository.TechnicalTaskRepository;
+import com.romanov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -31,6 +34,9 @@ public class TechnicalTaskRestController {
 
     @Autowired
     private TechnicalTaskRepository technicalTaskRepository;
+
+    @Autowired
+    private UserService userService;
 
 
     @RequestMapping(value = "/rest/technical-task", method = RequestMethod.POST)
@@ -68,7 +74,13 @@ public class TechnicalTaskRestController {
 
     }
 
-
+    @RequestMapping(value = "/rest/technical-task", method = RequestMethod.PUT)
+    TechnicalTask updateTechTask(@RequestBody JsonNode json){
+        User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
+        int id = json.findPath("id").asInt();
+        TechnicalTask technicalTask = technicalTaskRepository.getTechnicalTaskById(id);
+        return technicalTask;
+    }
 }
 
 

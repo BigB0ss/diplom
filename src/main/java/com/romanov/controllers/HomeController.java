@@ -1,6 +1,7 @@
 package com.romanov.controllers;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.romanov.model.*;
 import com.romanov.repository.*;
 import com.romanov.service.UserService;
@@ -9,8 +10,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,5 +75,16 @@ public class HomeController {
         return "create_new_tt";
     }
 
+    @RequestMapping(value = "/home/update-technical-task", method = RequestMethod.GET)
+    public String updateTechnicalTask(Model model, @RequestParam("id") int id) {
+        List<Type> types = typeTechnicalTaskRepository.getAllTypes();
+        List<Discipline> disciplines = disciplineRepository.getAll();
+        User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
+        //int id = json.findPath("id").asInt();
+        TechnicalTask technicalTask = technicalTaskRepository.getTechnicalTaskById(id);
+        model.addAttribute("types", types);
+        model.addAttribute("disciplines", disciplines);
+        return "updateTechnicalTask";
+    }
 
 }

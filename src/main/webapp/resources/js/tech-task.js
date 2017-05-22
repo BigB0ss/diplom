@@ -180,10 +180,7 @@ $(function() {
                 "claims": claims,
                 "discipline": discipline,
                 "dateCreated": new Date(),
-
             }
-            debugger;
-            console.log(technicalTask);
             saveTechnicalTask(technicalTask);
         }
     });
@@ -228,10 +225,9 @@ $(function() {
             data: JSON.stringify(technicalTask),
             dataType: 'json',
             success: function() {
-                location.reload();
+                location.reload("/home/update-technical-task");
             }
         });
-        console.log(sstt);
     }
 
 });
