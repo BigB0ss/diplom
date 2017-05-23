@@ -41,12 +41,18 @@ public class HomeController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private GroupRepository groupRepository;
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
         User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
         List<TechnicalTask> technicalTasks = technicalTaskRepository.getAllTaskForUser(currentUser);
         List<TechnicalTaskForUserDomain> technicalTaskForUserDomains = mapTechnicalTaskForUser(technicalTasks);
+        List<Group> groups = groupRepository.getAllGroup();
+        List<UserStudent> allStudents = userRepository.getAllStudent();
         model.addAttribute("technicalTasks", technicalTaskForUserDomains);
+        model.addAttribute("students", allStudents);
         return "home";
     }
 
@@ -75,7 +81,6 @@ public class HomeController {
         List<Discipline> disciplines = disciplineRepository.getAll();
         model.addAttribute("types", types);
         model.addAttribute("disciplines", disciplines);
-        model.addAttribute("students", userRepository.getAllStudent());
         return "create_new_tt";
     }
 
@@ -86,10 +91,10 @@ public class HomeController {
         User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
         //int id = json.findPath("id").asInt();
         TechnicalTask technicalTask = technicalTaskRepository.getTechnicalTaskById(id);
-        model.addAttribute("tasks",technicalTask.getTasks());
-        model.addAttribute("name",technicalTask.getName());
-        model.addAttribute("target",technicalTask.getTarget());
-        model.addAttribute("demands",technicalTask.getDemands());
+        model.addAttribute("tasks", technicalTask.getTasks());
+        model.addAttribute("name", technicalTask.getName());
+        model.addAttribute("target", technicalTask.getTarget());
+        model.addAttribute("demands", technicalTask.getDemands());
         model.addAttribute("types", types);
         model.addAttribute("disciplines", disciplines);
 

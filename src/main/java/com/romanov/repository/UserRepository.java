@@ -158,13 +158,41 @@ public class UserRepository {
         }
     }
 
-    public List<User> getAllStudent() {
+    public List<UserStudent> getAllStudent() {
         final String sql = "select id from users inner join heroku_2f77cfed4c2105d.students on users.id = students.users_id";
         List<Integer> userIDs = jdbcTemplate.queryForList(sql, Integer.class);
         List<User> students = new ArrayList<>();
         userIDs.stream().forEach(id -> {
             students.add(getUserByUserId(id));
         });
-        return students;
+
+        final String getGroup = "select users_id, group_id from heroku_2f77cfed4c2105d.students where users_id=?";
+        List<UserStudent> students2 = new ArrayList<>();
+        students.stream().forEach(student -> {
+            jdbcTemplate.query(getGroup, new Object[]{student.getId()}, new RowMapper<UserStudent>() {
+                @Override
+                public UserStudent mapRow(ResultSet resultSet, int i) throws SQLException {
+                    UserStudent userStudent = new UserStudent();
+                    userStudent.setUser(student);
+                    userStudent.setGroup(resultSet.getInt("group_id"));
+                    userStudent.setId(resultSet.getInt("users_id"));
+                    students2.add(userStudent);
+                    return userStudent;
+                }
+            });
+        });
+
+        final String getGroupName = "SELECT id ,name FROM heroku_2f77cfed4c2105d.`group` WHERE id =?; ";
+        students2.stream().forEach(student -> {
+            jdbcTemplate.query(getGroupName, new Object[]{student.getGroup()}, new RowMapper<UserStudent>() {
+                @Override
+                public UserStudent mapRow(ResultSet resultSet, int i) throws SQLException {
+                    student.setNameGroup(resultSet.getString("name"));
+                    return null;
+                }
+            });
+        });
+        return students2;
     }
+
 }

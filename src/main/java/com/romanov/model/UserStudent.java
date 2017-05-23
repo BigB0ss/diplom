@@ -6,6 +6,8 @@ package com.romanov.model;
 public class UserStudent {
     private int id;
     private int group;
+    private String nameGroup;
+    private User user;
 
     public int getId() {
         return id;
@@ -23,4 +25,19 @@ public class UserStudent {
         this.group = group;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getNameGroup() {
+        return nameGroup;
+    }
+
+    public void setNameGroup(String nameGroup) {
+        this.nameGroup = nameGroup;
+    }
 }

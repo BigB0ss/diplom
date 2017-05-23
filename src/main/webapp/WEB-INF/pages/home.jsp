@@ -159,10 +159,41 @@ To change this template use File | Settings | File Templates.
                 <h4 class="modal-title" id="myModalLabel">Список студентов</h4>
             </div>
             <div class="modal-body">
-                <c:forEach items="${students}" var="student">
-                    ${student.getName()}
+                    <table class="table table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Username
+                                </td>
+                                <td>
+                                    Имя
+                                </td>
+                                <td>
+                                    Фамилия
+                                </td>
+                                <td>
+                                    Группа
+                                </td>
+                                <td>
+                                    Опции
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${students}" var="student">
+                            <tr>
+                            <td>${student.getUser().getUserName()}</td>
+                            <td>${student.getUser().getName()}</td>
+                            <td>${student.getUser().getSurname()}</td>
+                                <td>${student.getNameGroup()}</td>
+                                <td><button type="button" class="button"> назначить</button></td>
+                            </tr>
 
-                </c:forEach>
+                            <%--<td>${student.getGroup()}</td>--%>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -175,12 +206,10 @@ To change this template use File | Settings | File Templates.
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <!-- jQuery Version 1.11.1 -->
-<script src="<c:url value="
-/resources/js/lib/jquery-3.2.0.js" />"></script>
+<script src="<c:url value="/resources/js/lib/jquery-3.2.0.js" />"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
-<script src="<c:url value="
-/resources/js/home.js" />"></script>
+<script src="<c:url value="/resources/js/home.js" />"></script>
 </body>
 </html>
