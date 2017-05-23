@@ -237,5 +237,7 @@ public class TechnicalTaskRepository {
             this.description = description;
         }
     }
-
+    public void updateTechnicalTask(){
+        String sql= "UPDATE `heroku_2f77cfed4c2105d`.`techincal_task` SET `name`='тестовая работаfd', `target`='тестовая работаfd' WHERE `id`='204' and`type_id`='4';";
+    }
 }

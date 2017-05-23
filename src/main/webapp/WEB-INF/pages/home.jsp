@@ -9,24 +9,6 @@ To change this template use File | Settings | File Templates.
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <style>
-    body {
-        padding-top: 50px;
-    }
-
-    .starter-template {
-        padding: 40px 15px;
-        text-align: center;
-    }
-
-
-
-
-
-
-
-
-
-
 </style>
 <html lang="en">
 <head>
@@ -140,19 +122,18 @@ To change this template use File | Settings | File Templates.
                                     <td>${technicalTasks.getDateCreated()}</td>
                                     <td>${technicalTasks.getTypeTechnicalTask()}</td>
                                     <td>${technicalTasks.getDiscipline()}</td>
-                                    <td>
+                                    <td id="${technicalTasks.getId()}">
 
-                                            <a href="/home/update-technical-task?id=${technicalTasks.getId()}" type="button" class="btn btn-secondary btn-sm updateTechTask"
-                                                    value="${technicalTasks.getId()}">Редактировать
-                                            </a>
+                                        <a href="/home/update-technical-task?id=${technicalTasks.getId()}"
+                                           class="btn btn-secondary btn-sm updateTechTask"
+                                           value="${technicalTasks.getId()}">Редактировать
+                                        </a>
 
                                         <input id="idTechnicalTask" class="" type="hidden"
                                                value="${technicalTasks.getId()}"/>
-
-
-                                        <button type="button" class="btn btn-secondary btn-sm">Копровать</button>
-                                        <button type="button" class="btn btn-secondary btn-sm">Удалить</button>
-                                        <button type="button" class="btn btn-secondary btn-sm">Назначить</button>
+                                        <button type="button" class="btn btn-secondary btn-sm addTTForStudent">
+                                            Назначить
+                                        </button>
 
                                     </td>
                                 </tr>
@@ -168,7 +149,28 @@ To change this template use File | Settings | File Templates.
     </sec:authorize>
 </div><!-- /.container -->
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width:100%;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Список студентов</h4>
+            </div>
+            <div class="modal-body">
+                <c:forEach items="${students}" var="student">
+                    ${student.getName()}
 
+                </c:forEach>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

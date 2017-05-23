@@ -1,9 +1,9 @@
 $(function() {
-     $(document).on('click','.updateTechTask', function(e) {
+/*     $(document).on('click','.updateTechTask', function(e) {
         var id ={
             "id": $(this).val()
         }
-/*        var sstt = $.ajax({
+*//*        var sstt = $.ajax({
             type: "POST",
             contentType: "application/json",
             url: "/home/update-technical-task",
@@ -14,4 +14,7 @@ $(function() {
             }
         });
      });*/
+    $(document).on('click','.addTTForStudent', function(e) {
+        $('#myModal').modal('show');
+    });
 });

@@ -38,6 +38,9 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
         User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -72,6 +75,7 @@ public class HomeController {
         List<Discipline> disciplines = disciplineRepository.getAll();
         model.addAttribute("types", types);
         model.addAttribute("disciplines", disciplines);
+        model.addAttribute("students", userRepository.getAllStudent());
         return "create_new_tt";
     }
 
@@ -88,6 +92,7 @@ public class HomeController {
         model.addAttribute("demands",technicalTask.getDemands());
         model.addAttribute("types", types);
         model.addAttribute("disciplines", disciplines);
+
         return "updateTechnicalTask";
     }
 

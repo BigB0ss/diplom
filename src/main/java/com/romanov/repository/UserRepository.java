@@ -72,9 +72,9 @@ public class UserRepository {
         parameters.put("users_id", keyHolder.getKey());
         parameters.put("post", userTeacher.getPost());
         parameters.put("academic_degree", userTeacher.getAcademicDegree());
-        parameters.put("academic_title",userTeacher.getAcademicTitle());
-        parameters.put("cathedra_id",userTeacher.getIdCathedra());
-        namedParameterJdbcTemplate.update(insertTeacher,parameters);
+        parameters.put("academic_title", userTeacher.getAcademicTitle());
+        parameters.put("cathedra_id", userTeacher.getIdCathedra());
+        namedParameterJdbcTemplate.update(insertTeacher, parameters);
     }
 
     public User getUserByUserName(String name) {
@@ -129,5 +129,42 @@ public class UserRepository {
         } else {
             return users.get(0);
         }
+    }
+
+    public User getUserByUserId(int id) {
+        String sql = "select * from heroku_2f77cfed4c2105d.users where id = :id";
+        Map namedParameters = new HashMap<>();
+        namedParameters.put("id", id);
+        List<User> users;
+        users = namedParameterJdbcTemplate.query(sql, namedParameters, new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet resultSet, int i) throws SQLException {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setPassword(resultSet.getString("password"));
+                user.setPatronymic(resultSet.getString("patronymic"));
+                user.setEmail(resultSet.getString("mail"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setUserName(resultSet.getString("username"));
+                user.setName(resultSet.getString("name"));
+                user.setRole(resultSet.getString("role"));
+                return user;
+            }
+        });
+        if (users.size() == 0) {
+            return null;
+        } else {
+            return users.get(0);
+        }
+    }
+
+    public List<User> getAllStudent() {
+        final String sql = "select id from users inner join heroku_2f77cfed4c2105d.students on users.id = students.users_id";
+        List<Integer> userIDs = jdbcTemplate.queryForList(sql, Integer.class);
+        List<User> students = new ArrayList<>();
+        userIDs.stream().forEach(id -> {
+            students.add(getUserByUserId(id));
+        });
+        return students;
     }
 }
