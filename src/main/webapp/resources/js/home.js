@@ -3,7 +3,7 @@ $(function() {
         var id ={
             "id": $(this).val()
         }
-        var sstt = $.ajax({
+/*        var sstt = $.ajax({
             type: "POST",
             contentType: "application/json",
             url: "/home/update-technical-task",
@@ -13,5 +13,5 @@ $(function() {
                 window.location.href = "/home/update-technical-task";
             }
         });
-     });
+     });*/
 });

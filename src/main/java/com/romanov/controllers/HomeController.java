@@ -82,6 +82,10 @@ public class HomeController {
         User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
         //int id = json.findPath("id").asInt();
         TechnicalTask technicalTask = technicalTaskRepository.getTechnicalTaskById(id);
+        model.addAttribute("tasks",technicalTask.getTasks());
+        model.addAttribute("name",technicalTask.getName());
+        model.addAttribute("target",technicalTask.getTarget());
+        model.addAttribute("demands",technicalTask.getDemands());
         model.addAttribute("types", types);
         model.addAttribute("disciplines", disciplines);
         return "updateTechnicalTask";
