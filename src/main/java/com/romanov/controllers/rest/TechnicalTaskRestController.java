@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.romanov.model.TechnicalTask;
 
 import com.romanov.model.User;
+import com.romanov.repository.SignaturesRepository;
 import com.romanov.repository.TechnicalTaskRepository;
 import com.romanov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class TechnicalTaskRestController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SignaturesRepository signaturesRepository;
 
     @RequestMapping(value = "/rest/technical-task", method = RequestMethod.POST)
     public HttpStatus addTecgnicalTask(@RequestBody JsonNode json) throws IOException {
@@ -68,19 +71,25 @@ public class TechnicalTaskRestController {
         for (int i = 0; i < demand.size(); i++) {
             task.getDemands().put(demand.get(i), demandDescription.get(i));
         }
-        System.out.println(task);
         technicalTaskRepository.addTechnicalTask(task);
         return HttpStatus.CREATED;
 
     }
 
     @RequestMapping(value = "/rest/technical-task", method = RequestMethod.PUT)
-    TechnicalTask updateTechTask(@RequestBody JsonNode json){
+    TechnicalTask updateTechTask(@RequestBody JsonNode json) {
         User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
         int id = json.findPath("id").asInt();
         TechnicalTask technicalTask = technicalTaskRepository.getTechnicalTaskById(id);
         return technicalTask;
     }
+
+    @RequestMapping(value = "rest/appoint-technical-task", method = RequestMethod.POST)
+    public HttpStatus appointTechnicalTask(@RequestBody JsonNode json) {
+        signaturesRepository.addSignaturesForStudent(json.findPath("idTechnicalTask").asInt(), json.findPath("idStudent").asInt());
+        return HttpStatus.CREATED;
+    }
+
 }
 
 

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Signature;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -209,6 +210,25 @@ public class TechnicalTaskRepository {
         return result;
     }
 
+    public boolean checkApointemnt(long idTechnicalTask) {
+        String sql = "SELECT * FROM heroku_2f77cfed4c2105d.signatures Where techincal_task_id=?;";
+        com.romanov.model.Signature signature = jdbcTemplate.queryForObject(sql, new Object[]{idTechnicalTask}, new RowMapper<com.romanov.model.Signature>() {
+            @Override
+            public com.romanov.model.Signature mapRow(ResultSet resultSet, int i) throws SQLException {
+                com.romanov.model.Signature signature1 = new com.romanov.model.Signature();
+                signature1.setTechnicalTaskId(resultSet.getInt("techincal_task_id"));
+                signature1.setTeacherId(resultSet.getInt("teachers_users_id"));
+                signature1.setStudentId(resultSet.getInt("students_users_id"));
+                return signature1;
+            }
+        });
+        if (signature.getStudentId() != 0 && signature.getTeacherId() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private class Section {
         private int id;
         private String description;
@@ -237,7 +257,10 @@ public class TechnicalTaskRepository {
             this.description = description;
         }
     }
-    public void updateTechnicalTask(){
-        String sql= "UPDATE `heroku_2f77cfed4c2105d`.`techincal_task` SET `name`='тестовая работаfd', `target`='тестовая работаfd' WHERE `id`='204' and`type_id`='4';";
+
+    public void updateTechnicalTask() {
+        String sql = "UPDATE `heroku_2f77cfed4c2105d`.`techincal_task` SET `name`='тестовая работаfd', `target`='тестовая работаfd' WHERE `id`='204' and`type_id`='4';";
     }
+
+
 }

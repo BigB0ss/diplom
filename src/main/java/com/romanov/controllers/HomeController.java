@@ -44,6 +44,9 @@ public class HomeController {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private SignaturesRepository signaturesRepository;
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
         User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -69,6 +72,7 @@ public class HomeController {
             technicalTaskForUserDomain.setTasks(technicalTask.getTasks());
             technicalTaskForUserDomain.setTypeTechnicalTask(typeTechnicalTaskRepository.getTypeById((long) technicalTask.getTypeTechnicalTask()).getType());
             technicalTaskForUserDomain.setDiscipline(disciplineRepository.getDisciplineById((long) technicalTask.getDiscipline()).getDescription());
+            technicalTaskForUserDomain.setAppointemnt(technicalTaskRepository.checkApointemnt(technicalTask.getId()));
             technicalTaskForUserDomains.add(technicalTaskForUserDomain);
         }
         return technicalTaskForUserDomains;

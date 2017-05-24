@@ -131,9 +131,15 @@ To change this template use File | Settings | File Templates.
 
                                         <input id="idTechnicalTask" class="" type="hidden"
                                                value="${technicalTasks.getId()}"/>
-                                        <button type="button" class="btn btn-secondary btn-sm addTTForStudent">
-                                            Назначить
-                                        </button>
+                                        <c:if test="${technicalTasks.isAppointemnt()}">
+                                            <span>Назначено</span>
+                                        </c:if>
+                                        <c:if test="${!technicalTasks.isAppointemnt()}">
+                                            <button type="button" class="btn btn-secondary btn-sm addTTForStudent" value="${technicalTasks.getId()}">
+                                                Назначить
+                                            </button>
+                                        </c:if>
+
 
                                     </td>
                                 </tr>
@@ -186,7 +192,7 @@ To change this template use File | Settings | File Templates.
                             <td>${student.getUser().getName()}</td>
                             <td>${student.getUser().getSurname()}</td>
                                 <td>${student.getNameGroup()}</td>
-                                <td><button type="button" class="button"> назначить</button></td>
+                                <td><button type="button" class="btn btn-secondary btn-sm appoint" value="${student.getUser().getId()}"> назначить</button></td>
                             </tr>
 
                             <%--<td>${student.getGroup()}</td>--%>
