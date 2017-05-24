@@ -125,22 +125,22 @@ To change this template use File | Settings | File Templates.
                                     <td id="${technicalTasks.getId()}">
 
                                         <a href="/home/update-technical-task?id=${technicalTasks.getId()}"
-                                           class="btn btn-secondary btn-sm updateTechTask"
+                                           type="button"
+                                           class="btn btn-primary btn-sm updateTechTask"
+                                           role="button"
                                            value="${technicalTasks.getId()}">Редактировать
                                         </a>
 
                                         <input id="idTechnicalTask" class="" type="hidden"
                                                value="${technicalTasks.getId()}"/>
                                         <c:if test="${technicalTasks.isAppointemnt()}">
-                                            <span>Назначено</span>
+                                            <span>Назначено на ${technicalTasks.getUserStudent().getUser().getUserName()}</span>
                                         </c:if>
                                         <c:if test="${!technicalTasks.isAppointemnt()}">
-                                            <button type="button" class="btn btn-secondary btn-sm addTTForStudent" value="${technicalTasks.getId()}">
+                                            <button type="button" class="btn btn-primary btn-sm addTTForStudent" value="${technicalTasks.getId()}">
                                                 Назначить
                                             </button>
                                         </c:if>
-
-
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -157,7 +157,7 @@ To change this template use File | Settings | File Templates.
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width:100%;">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document"    data-backdrop="static"  data-keyboard="false">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>

@@ -25,4 +25,9 @@ public class SignaturesRepository {
         source.addValue("idStudent", idStudent);
         namedParameterJdbcTemplate.update(sql, source);
     }
+
+    public int getIdStudent(long idTechnicalTask) {
+        final String sql = "select students_users_id from  `heroku_2f77cfed4c2105d`.`signatures` where `techincal_task_id`=?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{idTechnicalTask}, Integer.class);
+    }
 }

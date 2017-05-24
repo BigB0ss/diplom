@@ -73,6 +73,12 @@ public class HomeController {
             technicalTaskForUserDomain.setTypeTechnicalTask(typeTechnicalTaskRepository.getTypeById((long) technicalTask.getTypeTechnicalTask()).getType());
             technicalTaskForUserDomain.setDiscipline(disciplineRepository.getDisciplineById((long) technicalTask.getDiscipline()).getDescription());
             technicalTaskForUserDomain.setAppointemnt(technicalTaskRepository.checkApointemnt(technicalTask.getId()));
+            technicalTaskForUserDomain.setUserStudent(new UserStudent());
+            User user = null;
+            if (signaturesRepository.getIdStudent(technicalTask.getId()) != 0) {
+                user = userRepository.getUserByUserId(signaturesRepository.getIdStudent(technicalTask.getId()));
+            }
+            technicalTaskForUserDomain.getUserStudent().setUser(user);
             technicalTaskForUserDomains.add(technicalTaskForUserDomain);
         }
         return technicalTaskForUserDomains;

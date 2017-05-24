@@ -16,6 +16,10 @@ $(function() {
      });*/
      var idTechnicalTask;
     $(document).on('click','.addTTForStudent', function(e) {
+    var appoints = $('#myModal').find('.appoint');
+        $.each(appoints, function(index, elem){
+            $(elem).removeClass('disabled');
+        });
         $('#myModal').modal('show');
         idTechnicalTask = $(this).val();
     });
@@ -24,12 +28,14 @@ $(function() {
 
     $(document).on('click', '.appoint', function(e) {
         var idStudent = $(this).val();
-        debugger;
         var request = {
             "idTechnicalTask": idTechnicalTask,
             "idStudent": idStudent
         }
-
+        var appoints = $('#myModal').find('.appoint');
+        $.each(appoints, function(index, elem){
+           $(elem).addClass('disabled');
+        });
         var sstt = $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -37,7 +43,7 @@ $(function() {
             data: JSON.stringify(request),
             dataType: 'json',
             success: function() {
-            location.reload();
+                location.reload();
             }
         });
     });

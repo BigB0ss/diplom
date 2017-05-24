@@ -18,6 +18,7 @@ public class TechnicalTaskForUserDomain {
     private String discipline;
     private String typeTechnicalTask;
     private Map<String, List<String>> demands = new HashMap<>();
+    private UserStudent userStudent;
 
 
     private boolean isAppointemnt;
@@ -115,6 +116,14 @@ public class TechnicalTaskForUserDomain {
 
     public void setAppointemnt(boolean appointemnt) {
         isAppointemnt = appointemnt;
+    }
+
+    public UserStudent getUserStudent() {
+        return userStudent;
+    }
+
+    public void setUserStudent(UserStudent userStudent) {
+        this.userStudent = userStudent;
     }
 
     @Override
