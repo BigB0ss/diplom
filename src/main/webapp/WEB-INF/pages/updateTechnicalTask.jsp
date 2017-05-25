@@ -7,6 +7,7 @@ To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,6 +40,7 @@ To change this template use File | Settings | File Templates.
 .borderless td, .borderless th {
     border: none;
 }
+
 
     </style>
 
@@ -89,11 +91,11 @@ To change this template use File | Settings | File Templates.
 
         <label>Название работы</label>
         <br>
-        <textarea class="form-control" id="name" maxlength=8000></textarea>
+        <textarea class="form-control" id="name" maxlength=8000> ${name}</textarea>
         <br>
         <label>Цель работы</label>
         <br>
-        <textarea class="form-control" id="target"></textarea>
+        <textarea class="form-control" id="target">${target}</textarea>
         <br>
         <label>Основные Задачи</label>
         <br>
@@ -103,12 +105,22 @@ To change this template use File | Settings | File Templates.
                     <thead>
                     </thead>
                     <tbody id="mainTaskBody">
-                    <td style="border: none;"><textarea class="form-control" type="text"></textarea></td>
-                    <td style="width:50px; border: none;">
-                        <button class="btn btn-addTask" style=" margin-top: 15px;float:left;" id="buttonTask">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </td>
+                    <c:forEach items="${tasks}" var="task">
+                        <td style="border: none;"><textarea class="form-control" type="text">${task}</textarea></td>
+                        <td style="width:50px; border: none;">
+                            <c:if test="${task}!=end">
+                                <button class="btn btn-removeTask" style=" margin-top: 15px;float:left;"
+                                        id="buttonTask">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+                            </c:if>
+                            <c:if test="${task}==end">
+                                <button class="btn btn-addTask" style=" margin-top: 15px;float:left;" >
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </c:if>
+                        </td>
+                    </c:forEach>
                     </tbody>
                 </table>
 
@@ -155,7 +167,8 @@ To change this template use File | Settings | File Templates.
                         </td>
                     </tr>
                     <tr>
-                        <td style="border: none;"><textarea class="form-control" placeholder="Подраздел"></textarea></td>
+                        <td style="border: none;"><textarea class="form-control" placeholder="Подраздел"></textarea>
+                        </td>
                         <td style="border: none;">
                             <button class="btn btn-addSubClaim" style=" margin-top: 15px;float:left;" id="subClaimAdd">
                                 <span class="glyphicon glyphicon-plus"></span>

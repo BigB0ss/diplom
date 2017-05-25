@@ -122,7 +122,7 @@ To change this template use File | Settings | File Templates.
                                     <td>${technicalTasks.getDateCreated()}</td>
                                     <td>${technicalTasks.getTypeTechnicalTask()}</td>
                                     <td>${technicalTasks.getDiscipline()}</td>
-                                    <td id="${technicalTasks.getId()}">
+                                    <td id="${technicalTasks.getId()}" style="width: 300px;">
 
                                         <a href="/home/update-technical-task?id=${technicalTasks.getId()}"
                                            type="button"
@@ -134,7 +134,10 @@ To change this template use File | Settings | File Templates.
                                         <input id="idTechnicalTask" class="" type="hidden"
                                                value="${technicalTasks.getId()}"/>
                                         <c:if test="${technicalTasks.isAppointemnt()}">
-                                            <span>Назначено на ${technicalTasks.getUserStudent().getUser().getUserName()}</span>
+                                            <div style="float: right;">
+                                            <p >Назначено на ${technicalTasks.getUserStudent().getUser().getUserName()} </p>
+                                            <p>email: ${technicalTasks.getUserStudent().getUser().getEmail()}</p>
+                                            </div>
                                         </c:if>
                                         <c:if test="${!technicalTasks.isAppointemnt()}">
                                             <button type="button" class="btn btn-primary btn-sm addTTForStudent" value="${technicalTasks.getId()}">
