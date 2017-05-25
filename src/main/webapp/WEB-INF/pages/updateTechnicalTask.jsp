@@ -9,7 +9,7 @@ To change this template use File | Settings | File Templates.
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:c="http://www.w3.org/1999/html">
 
 <head>
 
@@ -108,17 +108,10 @@ To change this template use File | Settings | File Templates.
                     <c:forEach items="${tasks}" var="task">
                         <td style="border: none;"><textarea class="form-control" type="text">${task}</textarea></td>
                         <td style="width:50px; border: none;">
-                            <c:if test="${task}!=end">
                                 <button class="btn btn-removeTask" style=" margin-top: 15px;float:left;"
                                         id="buttonTask">
-                                    <span class="glyphicon glyphicon-minus"></span>
-                                </button>
-                            </c:if>
-                            <c:if test="${task}==end">
-                                <button class="btn btn-addTask" style=" margin-top: 15px;float:left;" >
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
-                            </c:if>
                         </td>
                     </c:forEach>
                     </tbody>
@@ -152,6 +145,7 @@ To change this template use File | Settings | File Templates.
         <br>
         <div class="col-md-12" id="claimContainer" style="padding-left:0px;     padding-right: 0px;">
             <div class="col-md-12 claim" id="firstClaim" style="padding-left:0px;     padding-right: 0px;">
+                <c:forEach items="${demands}" var="demand">
                 <label>Новый раздел ТЗ </label>
                 <table class=" table table-hover  table-bordered " style="" id="claim">
                     <thead>
@@ -159,15 +153,16 @@ To change this template use File | Settings | File Templates.
                     <tbody id="claimBody">
                     <tr>
                         <td style="border: none;"><input class="form-control" type="text"
-                                                         placeholder="Название"></input></td>
+                                                      value="${demand.getKey()}"   placeholder="Название"></input></td>
                         <td style="width:50px; border: none;">
                             <button class="btn btn-addClaim" style=" float:left;" id="claimAdd">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </td>
                     </tr>
+                    <c:forEach items="${demand.getValue()}" var="value">
                     <tr>
-                        <td style="border: none;"><textarea class="form-control" placeholder="Подраздел"></textarea>
+                        <td style="border: none;"><textarea class="form-control" placeholder="Подраздел">${value}</textarea>
                         </td>
                         <td style="border: none;">
                             <button class="btn btn-addSubClaim" style=" margin-top: 15px;float:left;" id="subClaimAdd">
@@ -175,8 +170,10 @@ To change this template use File | Settings | File Templates.
                             </button>
                         </td>
                     </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
+                </c:forEach>
             </div>
         </div>
         <button type="submit" value="Отправить" class="btn btn-secondary btn-lg"
@@ -235,8 +232,7 @@ To change this template use File | Settings | File Templates.
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
-    <script src="<c:url value="
-    /resources/js/tech-task.js" />"></script>
+   
 
 </body>
 
