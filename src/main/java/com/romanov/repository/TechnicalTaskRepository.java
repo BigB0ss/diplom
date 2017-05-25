@@ -162,7 +162,7 @@ public class TechnicalTaskRepository {
     }
 
     public List<String> getTasksInTechinicalTask(Integer id) {
-        final String sql = "Select * from heroku_2f77cfed4c2105d.tasks where id = ?";
+        final String sql = "Select * from heroku_2f77cfed4c2105d.tasks where techincal_task_id = ?";
         return jdbcTemplate.query(sql, new Object[]{id}, new RowMapper<String>() {
             @Override
             public String mapRow(ResultSet resultSet, int i) throws SQLException {

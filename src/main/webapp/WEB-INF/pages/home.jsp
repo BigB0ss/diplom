@@ -220,5 +220,6 @@ To change this template use File | Settings | File Templates.
 <!-- Bootstrap Core JavaScript -->
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/js/home.js" />"></script>
+<script src="<c:url value="/resources/js/update.js" />"></script>
 </body>
 </html>

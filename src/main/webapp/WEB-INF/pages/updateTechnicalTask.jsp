@@ -37,9 +37,10 @@ To change this template use File | Settings | File Templates.
         .error {
             border-color: red;
         }
-.borderless td, .borderless th {
-    border: none;
-}
+
+        .borderless td, .borderless th {
+            border: none;
+        }
 
 
     </style>
@@ -106,13 +107,15 @@ To change this template use File | Settings | File Templates.
                     </thead>
                     <tbody id="mainTaskBody">
                     <c:forEach items="${tasks}" var="task">
-                        <td style="border: none;"><textarea class="form-control" type="text">${task}</textarea></td>
-                        <td style="width:50px; border: none;">
-                                <button class="btn btn-removeTask" style=" margin-top: 15px;float:left;"
+                        <tr>
+                            <td style="border: none;"><textarea class="form-control" type="text">${task}</textarea></td>
+                            <td style="width:50px; border: none;">
+                                <button class="btn btn-addTask" style=" margin-top: 15px;float:left;"
                                         id="buttonTask">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
-                        </td>
+                            </td>
+                        </tr>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -146,33 +149,36 @@ To change this template use File | Settings | File Templates.
         <div class="col-md-12" id="claimContainer" style="padding-left:0px;     padding-right: 0px;">
             <div class="col-md-12 claim" id="firstClaim" style="padding-left:0px;     padding-right: 0px;">
                 <c:forEach items="${demands}" var="demand">
-                <label>Новый раздел ТЗ </label>
-                <table class=" table table-hover  table-bordered " style="" id="claim">
-                    <thead>
-                    </thead>
-                    <tbody id="claimBody">
-                    <tr>
-                        <td style="border: none;"><input class="form-control" type="text"
-                                                      value="${demand.getKey()}"   placeholder="Название"></input></td>
-                        <td style="width:50px; border: none;">
-                            <button class="btn btn-addClaim" style=" float:left;" id="claimAdd">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <c:forEach items="${demand.getValue()}" var="value">
-                    <tr>
-                        <td style="border: none;"><textarea class="form-control" placeholder="Подраздел">${value}</textarea>
-                        </td>
-                        <td style="border: none;">
-                            <button class="btn btn-addSubClaim" style=" margin-top: 15px;float:left;" id="subClaimAdd">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                    <label>Новый раздел ТЗ </label>
+                    <table class=" table table-hover  table-bordered " style="" id="claim">
+                        <thead>
+                        </thead>
+                        <tbody id="claimBody" class="claimBody">
+                        <tr>
+                            <td style="border: none;"><input class="form-control" type="text"
+                                                             value="${demand.getKey()}" placeholder="Название"></input>
+                            </td>
+                            <td style="width:50px; border: none;">
+                                <button class="btn btn-addClaim" style=" float:left;" id="claimAdd">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <c:forEach items="${demand.getValue()}" var="value">
+                            <tr>
+                                <td style="border: none;"><textarea class="form-control"
+                                                                    placeholder="Подраздел">${value}</textarea>
+                                </td>
+                                <td style="border: none;">
+                                    <button class="btn btn-addSubClaim" style=" margin-top: 15px;float:left;"
+                                            id="subClaimAdd">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
                 </c:forEach>
             </div>
         </div>
@@ -231,10 +237,16 @@ To change this template use File | Settings | File Templates.
     /resources/js/lib/jquery-3.2.0.js" />"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+    <
+    script
+    src = "<c:url value=" / resources / js / bootstrap.min.js
+    " />" ></script>
+    <script src="<c:url value="
+    /resources/js/update.js" />"></script>
 
 
-</body>
+    </
+    body >
 
-</html>
+    < / html >
 
