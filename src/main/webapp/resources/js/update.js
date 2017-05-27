@@ -134,3 +134,115 @@ $(document).ready(function (e) {
 
 });
 
+$(document).on('click', '#submit', function(e) {
+    removeErrors();
+    $('#name').removeClass('error');
+    $('#target').removeClass('error');
+
+    var id =$('#idTechnicalTask').val();
+    var name = $('#name').val().trim();
+    var target = $('#target').val().trim();
+    var type = $('#type').val();
+    var discipline = $('#discipline').val();
+
+    if (name == '') { $('#name').addClass('error') }
+    if (target == '') { $('#target').addClass('error') }
+
+    var tasksTextArea = [];
+    var tasks = [];
+    tasksTextArea = $('#tasksContainer').find('textarea');
+    tasks = $.map(tasksTextArea, function(elem) {
+        return $(elem).val();
+    });
+
+    claimsInForm = $('.claim');
+    var claims = [];
+    $.each(claimsInForm, function(index, elem) {
+        /*            input.push($(elem).find('input').val());
+         claim.push(input);*/
+        var textareas = $(elem).find('textarea');
+        var subClaims = [];
+        subClaims.push($(elem).find('input').val());
+        $.each(textareas, function(index, value) {
+            subClaims.push($(value).val());
+        });
+        claims.push(subClaims);
+    });
+
+    $('#container').contents().find('input').each(function() {
+        if ($(this).val().trim() == '') {
+            $(this).addClass('error');
+        }
+    });
+
+    $('#container').contents().find('textarea').each(function() {
+        if ($(this).val().trim() == '') {
+            $(this).addClass('error');
+        }
+    });
+
+
+
+    if ($('#container .error').length > 0) {
+
+    } else {
+        var technicalTask = {
+            "id": id,
+            "name": name,
+            "target": target,
+            "type": type,
+            "tasks": tasks,
+            "claims": claims,
+            "discipline": discipline,
+            "dateCreated": new Date(),
+        }
+        update(technicalTask);
+    }
+});
+
+function update(technicalTask) {
+    var opts = {
+        lines: 13 // The number of lines to draw
+        , length: 9 // The length of each line
+        , width: 2 // The line thickness
+        , radius: 4 // The radius of the inner circle
+        , scale: 1 // Scales overall size of the spinner
+        , corners: 1 // Corner roundness (0..1)
+        , color: '#000' // #rgb or #rrggbb or array of colors
+        , opacity: 0.25 // Opacity of the lines
+        , rotate: 0 // The rotation offset
+        , direction: 1 // 1: clockwise, -1: counterclockwise
+        , speed: 1 // Rounds per second
+        , trail: 60 // Afterglow percentage
+        , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+        , zIndex: 2e9 // The z-index (defaults to 2000000000)
+        , className: 'spinner' // The CSS class to assign to the spinner
+        , top: '50px' // Top position relative to parent
+        , left: '0%' // Left position relative to parent
+        , shadow: true // Whether to render a shadow
+        , hwaccel: true // Whether to use hardware acceleration
+        , position: 'absolute' // Element positioning
+    }
+    var target = document.getElementById('spinner')
+    var spinner = new Spinner(opts).spin(target);
+    var sstt = $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/rest/update-technical-task",
+        data: JSON.stringify(technicalTask),
+        dataType: 'json',
+        success: function() {
+            location.reload("/home/update-technical-task");
+        }
+    });
+}
+
+function removeErrors(){
+    $('#container').contents().find('input').each(function() {
+        $(this).removeClass('error');
+    });
+
+    $('#container').contents().find('textarea').each(function() {
+        $(this).removeClass('error');
+    });
+}

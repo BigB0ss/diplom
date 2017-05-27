@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.romanov.model.*;
 import com.romanov.repository.*;
 import com.romanov.service.UserService;
+import org.apache.commons.codec.language.bm.Languages;
+import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,14 +106,59 @@ public class HomeController {
         User currentUser = userService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
         //int id = json.findPath("id").asInt();
         TechnicalTask technicalTask = technicalTaskRepository.getTechnicalTaskById(id);
+        model.addAttribute("id", id);
+        model.addAttribute("techncalTask", technicalTask);
         model.addAttribute("tasks", technicalTask.getTasks());
         model.addAttribute("name", technicalTask.getName());
         model.addAttribute("target", technicalTask.getTarget());
         model.addAttribute("demands", technicalTask.getDemands());
         model.addAttribute("types", types);
         model.addAttribute("disciplines", disciplines);
-
         return "updateTechnicalTask";
+    }
+
+    @RequestMapping(value = "/download/technical-task")
+    public void downloadTechnicalTask(@RequestParam("id") int id) {
+        TechnicalTask technicalTask = technicalTaskRepository.getTechnicalTaskById(id);
+        List<TechnicalTask> list = new ArrayList<>();
+        list.add(technicalTask);
+        List<TechnicalTaskForUserDomain> technicalTaskForUserDomains = mapTechnicalTaskForUser(list);
+        XWPFDocument document = new XWPFDocument();
+        XWPFParagraph paragraph = document.createParagraph();
+        XWPFRun run = paragraph.createRun();
+        paragraph.setAlignment(ParagraphAlignment.CENTER);
+        run.setFontSize(12);
+        run.setText("ТЕХНИЧЕСКОЕ ЗАДАНИЕ");
+        paragraph = document.createParagraph();
+        run = paragraph.createRun();
+        paragraph.setAlignment(ParagraphAlignment.CENTER);
+        run.setFontSize(12);
+        run.setText("на " + technicalTaskForUserDomains.get(0).getTypeTechnicalTask());
+        paragraph = document.createParagraph();
+        run = paragraph.createRun();
+        paragraph.setAlignment(ParagraphAlignment.CENTER);
+        run.setFontSize(12);
+        run.setText("по дисциплине \"" + technicalTaskForUserDomains.get(0).getDiscipline() + "\"");
+        paragraph = document.createParagraph();
+        run = paragraph.createRun();
+        paragraph.setAlignment(ParagraphAlignment.LEFT);
+        paragraph.setNumID(new BigInteger("1"));
+        run.setText("ЦЕЛЬ РАБОТЫ");
+        run.addBreak();
+        run.setText(technicalTask.getTarget());
+        run = paragraph.createRun();
+        paragraph.setAlignment(ParagraphAlignment.LEFT);
+        paragraph.setNumID(new BigInteger("2"));
+        run.setText("ОСНОВНЫЕ ЗАДАЧИ");
+        try {
+            FileOutputStream out = new FileOutputStream(new File("tt.docx"));
+            document.write(out);
+            out.close();
+        } catch (Exception e) {
+
+        }
+
+        System.out.println("createdocument.docx written successully");
     }
 
 }

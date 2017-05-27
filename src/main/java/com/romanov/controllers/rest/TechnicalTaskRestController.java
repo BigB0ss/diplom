@@ -90,6 +90,37 @@ public class TechnicalTaskRestController {
         return HttpStatus.CREATED;
     }
 
+    @RequestMapping(value = "/rest/update-technical-task", method = RequestMethod.POST)
+    public HttpStatus updateTechnicalTask(@RequestBody JsonNode json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<List<String>>>() {
+        });
+        ObjectReader reader1 = objectMapper.readerFor(new TypeReference<List<String>>() {
+        });
+
+        TechnicalTask task = new TechnicalTask();
+        task.setId(json.findPath("id").asLong());
+        task.setName(json.findPath("name").asText());
+        task.setDateCreated(new Date());
+        task.setTarget(json.findPath("target").asText());
+        task.setDiscipline(json.findPath("discipline").asInt());
+        task.setTypeTechnicalTask(json.findPath("type").asInt());
+        task.setTasks(reader1.readValue(json.findPath("tasks")));
+        List<List<String>> demandDescription = new ArrayList<>();
+        List<String> demand = new ArrayList<>();
+        List<List<String>> claims = new ArrayList<>();
+        String str = json.findPath("claims").toString();
+        List<List<String>> list = reader.readValue(json.findPath("claims"));
+        for (List<String> elem : list) {
+            demand.add(elem.get(0));
+        }
+        demandDescription = list.stream().peek(elem -> elem.remove(0)).collect(Collectors.toList());
+        for (int i = 0; i < demand.size(); i++) {
+            task.getDemands().put(demand.get(i), demandDescription.get(i));
+        }
+        technicalTaskRepository.updateTechnicalTask(task);
+        return HttpStatus.CREATED;
+    }
 }
 
 

@@ -181,7 +181,6 @@ $(function() {
                 "discipline": discipline,
                 "dateCreated": new Date(),
             }
-            debugger;
             saveTechnicalTask(technicalTask);
         }
     });

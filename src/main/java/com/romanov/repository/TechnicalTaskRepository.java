@@ -258,9 +258,49 @@ public class TechnicalTaskRepository {
         }
     }
 
-    public void updateTechnicalTask() {
-        String sql = "UPDATE `heroku_2f77cfed4c2105d`.`techincal_task` SET `name`='тестовая работаfd', `target`='тестовая работаfd' WHERE `id`='204' and`type_id`='4';";
+
+    public void deleteSubSection(Long idTechnicalTask) {
+        String selectAllSectonIds = "select section_id From heroku_2f77cfed4c2105d.subsections where techincal_task_id = ?";
+        List<Long> idSections = jdbcTemplate.query(selectAllSectonIds, new Object[]{idTechnicalTask}, new RowMapper<Long>() {
+            @Override
+            public Long mapRow(ResultSet resultSet, int i) throws SQLException {
+                return resultSet.getLong("section_id");
+            }
+        });
+        //String sql = "Delete From heroku_2f77cfed4c2105d.subsections where techincal_task_id = ?";
+        String delete = "Delete From heroku_2f77cfed4c2105d.section where id =?";
+        idSections.stream().forEach(id -> {
+            jdbcTemplate.update(delete, new Object[]{id});
+        });
     }
 
+
+    @Transactional
+    public void updateTechnicalTask(TechnicalTask task) {
+        String sql = "UPDATE `heroku_2f77cfed4c2105d`.`techincal_task` SET `name`=:name, `target`=:target, type_id=:typeId, discipline_id=:disciplineId WHERE `id`=:id;";
+        MapSqlParameterSource source = new MapSqlParameterSource();
+        source.addValue("id", task.getId());
+        source.addValue("name", task.getName());
+        source.addValue("target", task.getTarget());
+        source.addValue("typeId", task.getTypeTechnicalTask());
+        source.addValue("disciplineId", task.getDiscipline());
+        namedParameterJdbcTemplate.update(sql, source);
+        deleteSubSection(task.getId());
+        deleteAllTaskFromTechnicalTasks(task.getId());
+        final String insertTasks = "Insert into heroku_2f77cfed4c2105d.tasks (description,techincal_task_id) VAlUES(:description,:techincal_task_id)";
+        for (String t : task.getTasks()) {
+            MapSqlParameterSource msqp = new MapSqlParameterSource();
+            msqp.addValue("description", t);
+            msqp.addValue("techincal_task_id", task.getId());
+            namedParameterJdbcTemplate.update(insertTasks, msqp);
+        }
+        addSubSection(task, task.getId());
+    }
+
+    @Transactional
+    public  void deleteAllTaskFromTechnicalTasks(long technicalTaskId) {
+        String delete = "Delete from  heroku_2f77cfed4c2105d.tasks where techincal_task_id=?;";
+        jdbcTemplate.update(delete, new Object[]{technicalTaskId});
+    }
 
 }

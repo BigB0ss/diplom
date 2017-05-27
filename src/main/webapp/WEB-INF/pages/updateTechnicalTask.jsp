@@ -89,7 +89,7 @@ To change this template use File | Settings | File Templates.
 <!-- Page Content -->
 <div id="container">
     <div class="col-md-8 col-md-offset-2">
-
+        <input id="idTechnicalTask" type="hidden" value="${id}">
         <label>Название работы</label>
         <br>
         <textarea class="form-control" id="name" maxlength=8000> ${name}</textarea>
@@ -130,6 +130,10 @@ To change this template use File | Settings | File Templates.
         <select size="1" class="form-control selectpicker" id="type">
             <c:forEach items="${types}" var="type">
                 <option value=<c:out value="${type.getId()}"/>
+                <c:if test="${type.getId() == techncalTask.getTypeTechnicalTask()}">
+                    <c:out value="selected"></c:out>
+                </c:if>
+
                 > ${type.getType()} </option>
             </c:forEach>
         </select>
@@ -140,6 +144,9 @@ To change this template use File | Settings | File Templates.
             <c:forEach items="${disciplines}" var="discipline">
                 <option value=
                                 <c:out value="${discipline.getId()}"/>
+                <c:if test="${discipline.getId()} == ${techncalTask.getDiscipline()}">
+                    <c:out value="selected"></c:out>
+                </c:if>
                 >
                 <c:out value="${discipline.getName()}"/>
                 </option>
@@ -182,8 +189,16 @@ To change this template use File | Settings | File Templates.
                 </c:forEach>
             </div>
         </div>
-        <button type="submit" value="Отправить" class="btn btn-secondary btn-lg"
-        / id="submit" style="margin-top:30px;"> Отправить</button>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="submit" value="Отправить" class="btn btn-secondary btn-lg"
+                        id="submit" style="margin-top:30px;"> Отправить
+                </button>
+            </div>
+            <div id="spinner" class="col-sm-4" style="">
+
+            </div>
+        </div>
     </div>
 
 </div>
@@ -244,9 +259,10 @@ To change this template use File | Settings | File Templates.
     <script src="<c:url value="
     /resources/js/update.js" />"></script>
 
+    <script src = "<c:url value="/resources/js/spiner.min.js" />" ></script>
 
-    </
-    body >
+</
+body >
 
-    < / html >
+< / html >
 

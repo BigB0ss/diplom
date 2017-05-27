@@ -50,7 +50,7 @@ To change this template use File | Settings | File Templates.
 <div class="container">
     <div class="row">
         <sec:authorize access="hasRole('ROLE_STUDENT')">
-            <div class="col-lg-12 col-lg-offset-2">
+            <div class="col-lg-10">
                 <div class="col-xs-8 col-xs-offset-3"><h4>Ваши технические задания</h4></div>
             </div>
         </sec:authorize>
@@ -123,12 +123,12 @@ To change this template use File | Settings | File Templates.
                                     <td>${technicalTasks.getTypeTechnicalTask()}</td>
                                     <td>${technicalTasks.getDiscipline()}</td>
                                     <td id="${technicalTasks.getId()}" style="width: 300px;">
-
-                                        <a href="/home/update-technical-task?id=${technicalTasks.getId()}"
+                                        <a title="Печать" href="/download/technical-task?id=${technicalTasks.getId()}" type="button" class="btn btn-primary btn-sm updateTechTask" value="${technicalTasks.getId()}"><span class="glyphicon glyphicon-print"></span></a>
+                                        <a title="Редактировать" href="/home/update-technical-task?id=${technicalTasks.getId()}"
                                            type="button"
                                            class="btn btn-primary btn-sm updateTechTask"
                                            role="button"
-                                           value="${technicalTasks.getId()}">Редактировать
+                                           value="${technicalTasks.getId()}"><span class="glyphicon glyphicon-pencil"></span>
                                         </a>
 
                                         <input id="idTechnicalTask" class="" type="hidden"
@@ -140,8 +140,8 @@ To change this template use File | Settings | File Templates.
                                             </div>
                                         </c:if>
                                         <c:if test="${!technicalTasks.isAppointemnt()}">
-                                            <button type="button" class="btn btn-primary btn-sm addTTForStudent" value="${technicalTasks.getId()}">
-                                                Назначить
+                                            <button title="Назначить" type="button" class="btn btn-primary btn-sm addTTForStudent" value="${technicalTasks.getId()}">
+                                                <span class="glyphicon glyphicon-paperclip"></span>
                                             </button>
                                         </c:if>
                                     </td>
@@ -205,8 +205,7 @@ To change this template use File | Settings | File Templates.
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+
             </div>
         </div>
     </div>
