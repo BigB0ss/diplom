@@ -1,6 +1,7 @@
 package com.romanov.repository;
 
 import com.romanov.model.Demand;
+import com.romanov.model.Task;
 import com.romanov.model.TechnicalTask;
 import com.romanov.model.User;
 import com.romanov.service.UserService;
@@ -51,7 +52,7 @@ public class TechnicalTaskRepository {
 
     @Transactional
     public void addTechnicalTask(TechnicalTask task) {
-        final String sql = "INSERT INTO heroku_2f77cfed4c2105d.techincal_task (name, target, type_id, date_create,  discipline_id) VALUES (:name,:target, :type_id, :date_create, :discipline_id);";
+        final String sql = "INSERT INTO heroku_2f77cfed4c2105d.techincal_task (name, target, type_id, date_create,  discipline_id, theme) VALUES (:name,:target, :type_id, :date_create, :discipline_id, :theme);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource namedParametrs = new MapSqlParameterSource();
         namedParametrs.addValue("name", task.getName());
@@ -59,11 +60,13 @@ public class TechnicalTaskRepository {
         namedParametrs.addValue("type_id", task.getTypeTechnicalTask());
         namedParametrs.addValue("date_create", task.getDateCreated());
         namedParametrs.addValue("discipline_id", task.getDiscipline());
+        namedParametrs.addValue("theme",task.getTheme());
         namedParameterJdbcTemplate.update(sql, namedParametrs, keyHolder, new String[]{"ID"});
-        final String insertTarget = "Insert into heroku_2f77cfed4c2105d.tasks (description,techincal_task_id) VAlUES(:description,:techincal_task_id)";
-        for (String t : task.getTasks()) {
+        final String insertTarget = "Insert into heroku_2f77cfed4c2105d.tasks (description,techincal_task_id, date) VAlUES(:description,:techincal_task_id, :date)";
+        for (Task t : task.getTasks()) {
             MapSqlParameterSource msqp = new MapSqlParameterSource();
-            msqp.addValue("description", t);
+            msqp.addValue("description", t.getDescription());
+            msqp.addValue("date", t.getDate());
             msqp.addValue("techincal_task_id", keyHolder.getKey());
             namedParameterJdbcTemplate.update(insertTarget, msqp);
         }
@@ -147,6 +150,7 @@ public class TechnicalTaskRepository {
             @Override
             public TechnicalTask mapRow(ResultSet resultSet, int i) throws SQLException {
                 TechnicalTask technicalTask = new TechnicalTask();
+                technicalTask.setTheme("theme");
                 technicalTask.setId(resultSet.getInt("id"));
                 technicalTask.setName(resultSet.getString("name"));
                 technicalTask.setTarget(resultSet.getString("target"));
@@ -161,12 +165,15 @@ public class TechnicalTaskRepository {
         return task;
     }
 
-    public List<String> getTasksInTechinicalTask(Integer id) {
+    public List<Task> getTasksInTechinicalTask(Integer id) {
         final String sql = "Select * from heroku_2f77cfed4c2105d.tasks where techincal_task_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{id}, new RowMapper<String>() {
+        return jdbcTemplate.query(sql, new Object[]{id}, new RowMapper<Task>() {
             @Override
-            public String mapRow(ResultSet resultSet, int i) throws SQLException {
-                return resultSet.getString("description");
+            public Task mapRow(ResultSet resultSet, int i) throws SQLException {
+                Task task = new Task();
+                task.setDate(resultSet.getDate("date"));
+                task.setDescription(resultSet.getString("description"));
+                return task;
             }
         });
     }
@@ -287,11 +294,12 @@ public class TechnicalTaskRepository {
         namedParameterJdbcTemplate.update(sql, source);
         deleteSubSection(task.getId());
         deleteAllTaskFromTechnicalTasks(task.getId());
-        final String insertTasks = "Insert into heroku_2f77cfed4c2105d.tasks (description,techincal_task_id) VAlUES(:description,:techincal_task_id)";
-        for (String t : task.getTasks()) {
+        final String insertTasks = "Insert into heroku_2f77cfed4c2105d.tasks (description,techincal_task_id, date) VAlUES(:description,:techincal_task_id, :date)";
+        for (Task t : task.getTasks()) {
             MapSqlParameterSource msqp = new MapSqlParameterSource();
-            msqp.addValue("description", t);
+            msqp.addValue("description", t.getDescription());
             msqp.addValue("techincal_task_id", task.getId());
+            msqp.addValue("date", t.getDate());
             namedParameterJdbcTemplate.update(insertTasks, msqp);
         }
         addSubSection(task, task.getId());

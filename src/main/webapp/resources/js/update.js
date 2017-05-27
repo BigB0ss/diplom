@@ -52,7 +52,7 @@ $(document).ready(function (e) {
 
     $(document).on('click', '.btn-addTask', function (e) {
         e.preventDefault();
-        var task = "<tr><td style=\"border: none;\"><textarea class=\"form-control\" type=\"text\"></textarea></td><td style=\"width:50px; border: none;\"><button class=\"btn btn-addTask\" style=\"margin-top: 15px;float:left;\" id=\"buttonTask\"><span class=\"glyphicon glyphicon-plus\"></span></button></td></tr>";
+        var task = "<tr><td style=\"border: none;\"><textarea class=\"form-control\" type=\"text\"></textarea></td><td style=\"min-width: 120px;max-width: 120px; width: 120px;\" ><input placeholder=\"Срок\" class=\"form-control datePicker\"/></td><td style=\"width:50px; border: none;\"><button class=\"btn btn-addTask\" style=\"margin-top: 15px;float:left;\" id=\"buttonTask\"><span class=\"glyphicon glyphicon-plus\"></span></button></td></tr>";
         $('#mainTaskBody').append(task);
         var controlForm = $('#tasksContainer');
         controlForm.find('.btn-addTask:not(:last)')
@@ -144,6 +144,11 @@ $(document).on('click', '#submit', function(e) {
     var target = $('#target').val().trim();
     var type = $('#type').val();
     var discipline = $('#discipline').val();
+    var theme = $('#theme').val();
+    var tasksTime = [];
+    tasksTime = $.map($('#tasksContainer').find('input'), function(elem) {
+        return Date.parse($(elem).val());
+    });
 
     if (name == '') { $('#name').addClass('error') }
     if (target == '') { $('#target').addClass('error') }
@@ -188,7 +193,9 @@ $(document).on('click', '#submit', function(e) {
     } else {
         var technicalTask = {
             "id": id,
+            "tasksTime": tasksTime,
             "name": name,
+            "theme": theme,
             "target": target,
             "type": type,
             "tasks": tasks,
@@ -246,3 +253,12 @@ function removeErrors(){
         $(this).removeClass('error');
     });
 }
+
+$(document).on('focus','.datePicker',function (e) {
+    $(this).datepicker({
+        orientation: "bottom left",
+        autoclose: true,
+        todayHighlight: true,
+        toggleActive: true
+    });
+});

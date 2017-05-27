@@ -12,7 +12,7 @@ public class TechnicalTaskForUserDomain {
     private long id;
     private String name;
     private String target;
-    private List<String> tasks;
+    private List<Task> tasks;
     private Date dateCreated;
     private Date dateCompleted;
     private String discipline;
@@ -26,17 +26,7 @@ public class TechnicalTaskForUserDomain {
     public TechnicalTaskForUserDomain() {
     }
 
-    public TechnicalTaskForUserDomain(long id, String name, String target, List<String> tasks, Date dateCreated, Date dateCompleted, String discipline, String typeTechnicalTask, Map<String, List<String>> demands) {
-        this.id = id;
-        this.name = name;
-        this.target = target;
-        this.tasks = tasks;
-        this.dateCreated = dateCreated;
-        this.dateCompleted = dateCompleted;
-        this.discipline = discipline;
-        this.typeTechnicalTask = typeTechnicalTask;
-        this.demands = demands;
-    }
+
 
     public long getId() {
         return id;
@@ -62,11 +52,11 @@ public class TechnicalTaskForUserDomain {
         this.target = target;
     }
 
-    public List<String> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<String> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 

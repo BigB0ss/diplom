@@ -9,12 +9,15 @@ public class TechnicalTask {
     private long id;
     private String name;
     private String target;
-    private List<String> tasks;
+    private String theme;
+
     private Date dateCreated;
     private Date dateCompleted;
     private int discipline;
     private int typeTechnicalTask;
+    private List<Date> taskTime;
     private Map<String, List<String>> demands = new HashMap<>();
+    private List<Task> tasks;
 
     public TechnicalTask() {
     }
@@ -78,11 +81,11 @@ public class TechnicalTask {
         this.typeTechnicalTask = typeTechnicalTask;
     }
 
-    public List<String> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<String> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 
@@ -100,6 +103,30 @@ public class TechnicalTask {
 
     public void setDiscipline(int discipline) {
         this.discipline = discipline;
+    }
+
+    public Date getDateCompleted() {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(Date dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
+    public List<Date> getTaskTime() {
+        return taskTime;
+    }
+
+    public void setTaskTime(List<Date> taskTime) {
+        this.taskTime = taskTime;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     @Override

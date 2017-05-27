@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
+import com.romanov.model.Task;
 import com.romanov.model.TechnicalTask;
 
 import com.romanov.model.User;
@@ -49,16 +50,31 @@ public class TechnicalTaskRestController {
         });
         ObjectReader reader1 = objectMapper.readerFor(new TypeReference<List<String>>() {
         });
+        ObjectReader reader2 = objectMapper.readerFor(new TypeReference<List<Date>>() {
+        });
 
         TechnicalTask task = new TechnicalTask();
         task.setName(json.findPath("name").asText());
+        task.setTheme(json.findPath("theme").asText());
         task.setDateCreated(new Date());
         task.setTarget(json.findPath("target").asText());
         task.setDiscipline(json.findPath("discipline").asInt());
         task.setTypeTechnicalTask(json.findPath("type").asInt());
-        task.setTasks(reader1.readValue(json.findPath("tasks")));
-        task.setDateCreated(new Date());
+        List<String> description = reader1.readValue(json.findPath("tasks"));
+        task.setTaskTime(reader2.readValue(json.findPath("tasksTime")));
 
+        List<Task> tasks = new ArrayList<>();
+        description.stream().forEach(d -> {
+            Task t = new Task();
+            t.setDescription(d);
+            tasks.add(t);
+        });
+        final int[] counter = {0};
+        task.getTaskTime().stream().forEach(tt -> {
+            tasks.get(counter[0]).setDate(tt);
+            counter[0]++;
+        });
+        task.setTasks(tasks);
         List<List<String>> demandDescription = new ArrayList<>();
         List<String> demand = new ArrayList<>();
         List<List<String>> claims = new ArrayList<>();
@@ -97,6 +113,8 @@ public class TechnicalTaskRestController {
         });
         ObjectReader reader1 = objectMapper.readerFor(new TypeReference<List<String>>() {
         });
+        ObjectReader reader2 = objectMapper.readerFor(new TypeReference<List<Date>>() {
+        });
 
         TechnicalTask task = new TechnicalTask();
         task.setId(json.findPath("id").asLong());
@@ -105,7 +123,21 @@ public class TechnicalTaskRestController {
         task.setTarget(json.findPath("target").asText());
         task.setDiscipline(json.findPath("discipline").asInt());
         task.setTypeTechnicalTask(json.findPath("type").asInt());
-        task.setTasks(reader1.readValue(json.findPath("tasks")));
+        List<String> description = reader1.readValue(json.findPath("tasks"));
+        task.setTaskTime(reader2.readValue(json.findPath("tasksTime")));
+
+        List<Task> tasks = new ArrayList<>();
+        description.stream().forEach(d -> {
+            Task t = new Task();
+            t.setDescription(d);
+            tasks.add(t);
+        });
+        final int[] counter = {0};
+        task.getTaskTime().stream().forEach(tt -> {
+            tasks.get(counter[0]).setDate(tt);
+            counter[0]++;
+        });
+        task.setTasks(tasks);
         List<List<String>> demandDescription = new ArrayList<>();
         List<String> demand = new ArrayList<>();
         List<List<String>> claims = new ArrayList<>();

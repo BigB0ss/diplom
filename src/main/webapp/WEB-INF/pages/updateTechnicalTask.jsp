@@ -26,7 +26,8 @@ To change this template use File | Settings | File Templates.
     /resources/css/bootstrap.min.css" />" rel="stylesheet">
     <link href="<c:url value="
     /resources/css/starter-template.css" />" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"/>
     <!-- Custom CSS -->
     <style>
         body {
@@ -94,6 +95,10 @@ To change this template use File | Settings | File Templates.
         <br>
         <textarea class="form-control" id="name" maxlength=8000> ${name}</textarea>
         <br>
+        <label>Тема работы</label>
+        <br>
+        <textarea class="form-control" id="theme">${theme}</textarea>
+        <br>
         <label>Цель работы</label>
         <br>
         <textarea class="form-control" id="target">${target}</textarea>
@@ -108,7 +113,8 @@ To change this template use File | Settings | File Templates.
                     <tbody id="mainTaskBody">
                     <c:forEach items="${tasks}" var="task">
                         <tr>
-                            <td style="border: none;"><textarea class="form-control" type="text">${task}</textarea></td>
+                            <td style="border: none;"><textarea class="form-control" type="text">${task.getDescription()}</textarea></td>
+                            <td style="min-width: 120px;max-width: 120px; width: 120px;" ><input placeholder="Срок" class="form-control datePicker" value="${task.getDate()}"/></td>
                             <td style="width:50px; border: none;">
                                 <button class="btn btn-addTask" style=" margin-top: 15px;float:left;"
                                         id="buttonTask">
@@ -258,7 +264,7 @@ To change this template use File | Settings | File Templates.
     " />" ></script>
     <script src="<c:url value="
     /resources/js/update.js" />"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
     <script src = "<c:url value="/resources/js/spiner.min.js" />" ></script>
 
 </
