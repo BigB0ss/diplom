@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import java.util.stream.Collectors;
 
@@ -84,9 +82,11 @@ public class TechnicalTaskRestController {
             demand.add(elem.get(0));
         }
         demandDescription = list.stream().peek(elem -> elem.remove(0)).collect(Collectors.toList());
+        Map<String, List<String>> demandsMap = new LinkedHashMap<>();
         for (int i = 0; i < demand.size(); i++) {
-            task.getDemands().put(demand.get(i), demandDescription.get(i));
+            demandsMap.put(demand.get(i), demandDescription.get(i));
         }
+        task.setDemands(demandsMap);
         technicalTaskRepository.addTechnicalTask(task);
         return HttpStatus.CREATED;
 
@@ -120,6 +120,7 @@ public class TechnicalTaskRestController {
         task.setId(json.findPath("id").asLong());
         task.setName(json.findPath("name").asText());
         task.setDateCreated(new Date());
+        task.setTheme(json.findPath("theme").asText());
         task.setTarget(json.findPath("target").asText());
         task.setDiscipline(json.findPath("discipline").asInt());
         task.setTypeTechnicalTask(json.findPath("type").asInt());

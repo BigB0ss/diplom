@@ -150,7 +150,7 @@ public class TechnicalTaskRepository {
             @Override
             public TechnicalTask mapRow(ResultSet resultSet, int i) throws SQLException {
                 TechnicalTask technicalTask = new TechnicalTask();
-                technicalTask.setTheme("theme");
+                technicalTask.setTheme(resultSet.getString("theme"));
                 technicalTask.setId(resultSet.getInt("id"));
                 technicalTask.setName(resultSet.getString("name"));
                 technicalTask.setTarget(resultSet.getString("target"));
@@ -284,13 +284,14 @@ public class TechnicalTaskRepository {
 
     @Transactional
     public void updateTechnicalTask(TechnicalTask task) {
-        String sql = "UPDATE `heroku_2f77cfed4c2105d`.`techincal_task` SET `name`=:name, `target`=:target, type_id=:typeId, discipline_id=:disciplineId WHERE `id`=:id;";
+        String sql = "UPDATE `heroku_2f77cfed4c2105d`.`techincal_task` SET `name`=:name, `target`=:target, type_id=:typeId, discipline_id=:disciplineId,theme=:theme WHERE `id`=:id;";
         MapSqlParameterSource source = new MapSqlParameterSource();
         source.addValue("id", task.getId());
         source.addValue("name", task.getName());
         source.addValue("target", task.getTarget());
         source.addValue("typeId", task.getTypeTechnicalTask());
         source.addValue("disciplineId", task.getDiscipline());
+        source.addValue("theme",task.getTheme());
         namedParameterJdbcTemplate.update(sql, source);
         deleteSubSection(task.getId());
         deleteAllTaskFromTechnicalTasks(task.getId());

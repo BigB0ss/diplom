@@ -19,7 +19,7 @@ public class TechnicalTaskForUserDomain {
     private String typeTechnicalTask;
     private Map<String, List<String>> demands = new HashMap<>();
     private UserStudent userStudent;
-
+    private String theme;
 
     private boolean isAppointemnt;
 
@@ -114,6 +114,14 @@ public class TechnicalTaskForUserDomain {
 
     public void setUserStudent(UserStudent userStudent) {
         this.userStudent = userStudent;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     @Override
