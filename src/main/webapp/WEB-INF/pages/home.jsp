@@ -80,9 +80,14 @@ To change this template use File | Settings | File Templates.
                                 <td>${technicalTasks.getTypeTechnicalTask()}</td>
                                 <td>${technicalTasks.getDiscipline()}</td>
                                 <td>
-                                    <button type="button" class="btn btn-secondary btn-sm">Редактировать</button>
-                                    <button type="button" class="btn btn-secondary btn-sm">Копровать</button>
-                                    <button type="button" class="btn btn-secondary btn-sm">Удалить</button>
+                                <td id="${technicalTasks.getId()}" style="width: 300px;">
+                                    <a title="Печать" href="/download/technical-task?id=${technicalTasks.getId()}" type="button" class="btn btn-primary btn-sm updateTechTask" value="${technicalTasks.getId()}"><span class="glyphicon glyphicon-print"></span></a>
+                                    <a title="Редактировать" href="/home/update-technical-task?id=${technicalTasks.getId()}"
+                                       type="button"
+                                       class="btn btn-primary btn-sm updateTechTask"
+                                       role="button"
+                                       value="${technicalTasks.getId()}"><span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
                                 </td>
                             </tr>
                         </c:forEach>
